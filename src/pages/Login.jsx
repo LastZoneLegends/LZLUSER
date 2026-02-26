@@ -267,7 +267,7 @@ export default function Login() {
             </Link>
 
             <Button type="submit" loading={loading} fullWidth size="lg">
-              Sign In
+              LOGIN
             </Button>
             <div className="text-center mt-6 text-gray-400">
   or Login
@@ -282,7 +282,7 @@ export default function Login() {
     <img
       src="https://developers.google.com/identity/images/g-logo.png"
       alt="Google"
-      className="w-8 h-8"
+      className="w-6 h-6"
     />
   </button>
 </div>
@@ -291,7 +291,7 @@ export default function Login() {
           <p className="text-center text-gray-400 mt-6">
             Don't have an account?{' '}
             <Link to="/register" className="text-primary-400 font-medium">
-              Sign Up
+              Login
             </Link>
           </p>
         </div>
@@ -465,6 +465,7 @@ export default function Login() {
     </div>
   );
 }
+
 
 
 
