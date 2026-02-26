@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useAuth } from '../contexts/AuthContext';
@@ -13,13 +13,21 @@ import { formatCurrency, formatDateTime } from '../utils/formatters';
 
 export default function MyContests() {
     const navigate = useNavigate();
+    const location = useLocation();
+const queryParams = new URLSearchParams(location.search);
+const tabFromUrl = queryParams.get("tab");
+
+useEffect(() => {
+  if (tabFromUrl && ['upcoming', 'live', 'finished'].includes(tabFromUrl)) {
+    setStatusFilter(tabFromUrl);
+  }
+}, [tabFromUrl]);
     const { currentUser } = useAuth();
     const [tournaments, setTournaments] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [statusFilter, setStatusFilter] = useState('all');
+    const [statusFilter, setStatusFilter] = useState('upcoming');
 
     const filterOptions = [
-        { value: 'all', label: 'All' },
         { value: 'upcoming', label: 'Upcoming' },
         { value: 'live', label: 'Live' },
         { value: 'finished', label: 'Finished' },
@@ -115,28 +123,22 @@ export default function MyContests() {
 
             <div className="px-4 py-4">
                 {/* Filter Chips */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                    {filterOptions.map((option) => (
-                        <button
-                            key={option.value}
-                            onClick={() => setStatusFilter(option.value)}
-                            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${statusFilter === option.value
-                                ? 'bg-gradient-to-r from-primary-500 to-purple-500 text-white shadow-lg shadow-primary-500/30'
-                                : 'bg-dark-400 text-gray-400 hover:text-white hover:bg-dark-300'
-                                }`}
-                        >
-                            {option.label}
-                            {option.value !== 'all' && (
-                                <span className={`ml-1 px-1 py-0.5 rounded-full text-xs ${statusFilter === option.value
-                                    ? 'bg-white/20'
-                                    : 'bg-dark-300'
-                                    }`}>
-                                    {getStatusCount(option.value)}
-                                </span>
-                            )}
-                        </button>
-                    ))}
-                </div>
+                <div className="flex w-full gap-3 mb-4">
+  {filterOptions.map((option) => (
+    <button
+      key={option.value}
+      onClick={() => setStatusFilter(option.value)}
+      className={`flex-1 py-3 text-sm font-semibold rounded-2xl transition-all duration-300
+        ${
+          statusFilter === option.value
+            ? "bg-gradient-to-r from-primary-500 to-purple-500 text-white shadow-lg"
+            : "bg-dark-400 text-gray-400 hover:bg-dark-300"
+        }`}
+    >
+      {option.label}
+    </button>
+  ))}
+</div>
 
                 {/* Empty State */}
                 {filteredTournaments.length === 0 ? (
@@ -149,7 +151,7 @@ export default function MyContests() {
                                 : `You don't have any ${statusFilter} tournaments`
                         }
                         action={
-                            <Link to="/tournaments" className="text-primary-400 hover:text-primary-300">
+                            <Link to="/home" className="text-primary-400 hover:text-primary-300">
                                 Browse tournaments →
                             </Link>
                         }
@@ -212,3 +214,8 @@ export default function MyContests() {
         </Layout>
     );
 }
+
+
+
+
+
