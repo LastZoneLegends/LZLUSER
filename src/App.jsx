@@ -10,7 +10,6 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import Register from './pages/Register';
-import Tournaments from './pages/Tournaments';
 import TournamentDetail from './pages/TournamentDetail';
 import GameTournaments from './pages/GameTournaments';
 import Wallet from './pages/Wallet';
@@ -71,7 +70,6 @@ function AppRoutes() {
 
         {/* Protected Routes */}
         <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-        <Route path="/tournaments" element={<PrivateRoute><Tournaments /></PrivateRoute>} />
         <Route path="/tournament/:id" element={<PrivateRoute><TournamentDetail /></PrivateRoute>} />
         <Route path="/game/:id" element={<PrivateRoute><GameTournaments /></PrivateRoute>} />
         <Route path="/wallet" element={<PrivateRoute><Wallet /></PrivateRoute>} />
@@ -113,3 +111,4 @@ export default function App() {
     </Router>
   );
 }
+

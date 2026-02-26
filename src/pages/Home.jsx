@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, where, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useAuth } from '../contexts/AuthContext';
-import { User, Wallet, Trophy, Phone, ChevronRight, Gamepad2, Calendar } from 'lucide-react';
+import { User, Wallet, Trophy, PlayCircle, CheckCircle, Phone, ChevronRight, Gamepad2, Calendar } from 'lucide-react';
 import Layout from '../components/common/Layout';
 import Card from '../components/common/Card';
 import Badge from '../components/common/Badge';
@@ -11,6 +12,7 @@ import Loader from '../components/common/Loader';
 import { formatCurrency, formatDateTime } from '../utils/formatters';
 
 export default function Home() {
+  const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [promotions, setPromotions] = useState([]);
   const [games, setGames] = useState([]);
@@ -131,90 +133,63 @@ export default function Home() {
             </Link>
           ))}
         </div>
+        
+    {/* My Contests */}
 
-        {/* My Contests */}
-        <section className="animate-fade-in">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+    <section className="animate-fade-in mt-6 px-3">
+    <div className="flex items-center justify-between mb-3">
+    <h2 className="text-lg font-semibold text-white flex items-center gap-2">
               <Calendar className="w-5 h-5 text-yellow-400" />
               My Contests
             </h2>
-            <Link
-              to="/my-contests"
-              className="text-primary-400 text-sm flex items-center gap-1 hover:text-primary-300 transition-colors"
-            >
-              View All <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
+    </div>
+       <div className="grid grid-cols-3 gap-4 justify-items-center">
+            
+    
+            {/* Upcoming */}
+    <div
+      onClick={() => navigate("/my-contests?tab=upcoming")}
+      className="aspect-square h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 
+                 backdrop-blur-md border border-white/10 
+                 rounded-2xl flex flex-col items-center justify-center 
+                 cursor-pointer hover:scale-105 
+                 hover:from-blue-500/40 hover:to-purple-500/40
+                 transition-all duration-300 shadow-lg"
+    >
+      <Trophy className="w-8 h-8 mb-3 text-blue-400" />
+      <p className="text-white font-semibold text-sm">Upcoming</p>
+    </div>
 
-          {!currentUser ? (
-            <Card className="text-center py-8" glow>
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <User className="w-8 h-8 text-blue-400" />
-              </div>
-              <p className="text-gray-400">Login to see your contests</p>
-              <Link
-                to="/login"
-                className="text-primary-400 text-sm mt-2 inline-block hover:text-primary-300"
-              >
-                Login now →
-              </Link>
-            </Card>
-          ) : myContests.length === 0 ? (
-            <Card className="text-center py-8" glow>
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Trophy className="w-8 h-8 text-yellow-400" />
-              </div>
-              <p className="text-gray-400">You haven't joined any contests yet</p>
-              <Link
-                to="/tournaments"
-                className="text-primary-400 text-sm mt-2 inline-block hover:text-primary-300"
-              >
-                Join a tournament →
-              </Link>
-            </Card>
-          ) : (
-            <div className="space-y-3">
-              {myContests.slice(0, 3).map((contest, index) => (
-                <Link key={contest.id} to={`/tournament/${contest.id}`}>
-                  <Card
-                    className="flex items-center gap-3 hover:border-primary-500/30 transition-all duration-300"
-                    glow
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-dark-200 flex-shrink-0 ring-2 ring-white/10">
-                      {contest.gameImage ? (
-                        <img
-                          src={contest.gameImage}
-                          alt={contest.gameName}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-800">
-                          <Gamepad2 className="w-6 h-6 text-gray-500" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-white truncate">{contest.name}</h3>
-                        <Badge status={contest.status} />
-                      </div>
-                      <p className="text-sm text-gray-400">{contest.gameName}</p>
-                      <p className="text-xs text-gray-500">{formatDateTime(contest.startDateTime)}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-green-400 font-bold text-lg prize-glow">
-                        {formatCurrency(contest.prizePool)}
-                      </p>
-                      <p className="text-xs text-gray-500">Prize Pool</p>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          )}
-        </section>
+    {/* Live */}
+    <div
+      onClick={() => navigate("/my-contests?tab=live")}
+      className="aspect-square h-24 bg-gradient-to-br from-green-500/20 to-cyan-500/20 
+                 backdrop-blur-md border border-white/10 
+                 rounded-2xl flex flex-col items-center justify-center 
+                 cursor-pointer hover:scale-105 
+                 hover:from-green-500/40 hover:to-cyan-500/40
+                 transition-all duration-300 shadow-lg"
+    >
+      <PlayCircle className="w-8 h-8 mb-3 text-green-400" />
+      <p className="text-white font-semibold text-sm">Live</p>
+    </div>
+
+    {/* Finished */}
+    <div
+      onClick={() => navigate("/my-contests?tab=finished")}
+      className="aspect-square h-24 bg-gradient-to-br from-pink-500/20 to-purple-500/20 
+                 backdrop-blur-md border border-white/10 
+                 rounded-2xl flex flex-col items-center justify-center 
+                 cursor-pointer hover:scale-105 
+                 hover:from-pink-500/40 hover:to-purple-500/40
+                 transition-all duration-300 shadow-lg"
+    >
+      <CheckCircle className="w-8 h-8 mb-3 text-pink-400" />
+      <p className="text-white font-semibold text-sm">Finished</p>
+    </div>
+
+  </div>
+</section>
 
         {/* Games */}
         <section className="animate-fade-in">
