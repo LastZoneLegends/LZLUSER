@@ -277,12 +277,12 @@ export default function Login() {
   <button
      type="button"
      onClick={handleGoogleLogin}
-     className="w-15 h-15 rounded-full bg-white flex items-center justify-center shadow-lg active:scale-95 transition"
+     className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-lg active:scale-95 transition"
   >
     <img
       src="https://developers.google.com/identity/images/g-logo.png"
       alt="Google"
-      className="w-7 h-7"
+      className="w-6 h-6"
     />
   </button>
 </div>
@@ -465,6 +465,7 @@ export default function Login() {
     </div>
   );
 }
+
 
 
 
