@@ -231,7 +231,7 @@ export default function Register() {
           <p className="text-center text-gray-400 mt-6">
             Already have an account?{' '}
             <Link to="/login" className="text-primary-400 font-medium">
-              Sign In
+              Login
             </Link>
           </p>
         </div>
@@ -319,3 +319,4 @@ export default function Register() {
     </div>
   );
 }
+
