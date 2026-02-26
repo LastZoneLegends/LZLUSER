@@ -220,7 +220,7 @@ export default function Login() {
           <div className="text-center mb-8">
             <img src="/logo.jpeg" alt="Last Zone Legends" className="w-20 h-20 rounded-3xl mx-auto mb-4 object-cover" />
             <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
-            <p className="text-gray-400 mt-1">Sign in to continue</p>
+            <p className="text-gray-400 mt-1">Login to continue</p>
           </div>
 
           {error && (
@@ -267,7 +267,7 @@ export default function Login() {
             </Link>
 
             <Button type="submit" loading={loading} fullWidth size="lg">
-              Sign In
+              LOGIN
             </Button>
             <div className="text-center mt-6 text-gray-400">
   or Login
@@ -277,12 +277,12 @@ export default function Login() {
   <button
      type="button"
      onClick={handleGoogleLogin}
-     className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-lg active:scale-95 transition"
+     className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-lg hover:scale-105 transition"
   >
     <img
       src="https://developers.google.com/identity/images/g-logo.png"
       alt="Google"
-      className="w-8 h-8"
+      className="w-6 h-6"
     />
   </button>
 </div>
@@ -465,6 +465,7 @@ export default function Login() {
     </div>
   );
 }
+
 
 
 
