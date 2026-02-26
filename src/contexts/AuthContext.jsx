@@ -76,19 +76,20 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      
-      if (user) {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          setUserData({ id: userDoc.id, ...userDoc.data() });
-        }
-      } else {
-        setUserData(null);
-      }
-      
-      setLoading(false);
-    });
+  setCurrentUser(user);
+
+  if (user) {
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+
+    if (userDoc.exists()) {
+      setUserData({ id: userDoc.id, ...userDoc.data() });
+    }
+  } else {
+    setUserData(null);
+  }
+
+  setLoading(false);
+});
 
     return unsubscribe;
   }, []);
@@ -110,3 +111,4 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
