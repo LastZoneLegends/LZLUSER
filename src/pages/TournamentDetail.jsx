@@ -732,6 +732,90 @@ Kill Prize: ₹{(tournament.results?.third?.kills ?? 0) * (tournament.perKillPri
       </div>
     )}
 
+    {/* All Players Kill Rewards */}
+{tournament?.perKillPrize > 0 &&
+tournament?.participantDetails?.filter((player) => {
+
+if (
+player.odeuName === tournament.results?.first?.name ||
+player.odeuName === tournament.results?.second?.name ||
+player.odeuName === tournament.results?.third?.name
+) {
+return false;
+}
+
+return (player.kills || 0) > 0;
+
+}).length > 0 && (
+
+<div className="mt-4 bg-dark-400 rounded-xl p-4">
+
+<h3 className="text-white font-bold mb-3">
+All Player Kill Rewards
+</h3>
+
+<div className="space-y-3">
+
+{tournament?.participantDetails
+?.filter((player) => {
+
+if (
+player.odeuName === tournament.results?.first?.name ||
+player.odeuName === tournament.results?.second?.name ||
+player.odeuName === tournament.results?.third?.name
+) {
+return false;
+}
+
+return (player.kills || 0) > 0;
+
+})
+.map((player, index) => {
+
+const killPrize =
+(player.kills || 0) *
+(tournament.perKillPrize || 0);
+
+return (
+
+<div
+key={index}
+className="flex justify-between items-center bg-dark-300 p-3 rounded-lg border border-gray-700"
+>
+
+<div>
+<p className="text-white font-semibold text-sm">
+{player.odeuName}
+</p>
+
+<p className="text-gray-400 text-xs">
+IGN: {player.odeuGameId}
+</p>
+</div>
+
+<div className="text-right">
+
+<p className="text-gray-300 text-xs">
+Kills: {player.kills}
+</p>
+
+<p className="text-green-400 text-xs font-semibold">
+Kill Prize: ₹{killPrize}
+</p>
+
+</div>
+
+</div>
+
+);
+
+})}
+
+</div>
+</div>
+
+)}
+
   </div>
 
 ) : (
