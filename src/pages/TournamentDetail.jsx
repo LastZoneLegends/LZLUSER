@@ -591,104 +591,138 @@ export default function TournamentDetail() {
   <div className="mt-4 space-y-4">
   
     {/* 1st Place */}
-    {tournament.results.first && (
-      <div className="bg-yellow-500/10 border border-yellow-500/30 
-        rounded-xl p-4 shadow-md">
+    {tournament.results?.first && (
+<div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 shadow-md">
 
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-yellow-400 font-bold text-sm">
-              🥇 1st Place
-            </p>
+<div className="flex justify-between items-start">
 
-            <p className="text-white font-semibold text-base mt-1">
-              {tournament.results.first.name}
-            </p>
+<div>
+<p className="text-yellow-400 font-bold text-sm">
+🥇 1st Place
+</p>
 
-            <p className="text-gray-400 text-xs">
-              IGN: {tournament.results.first.gameId}
-            </p>
-          </div>
+<p className="text-white font-semibold text-base mt-1">
+{tournament.results.first.name}
+</p>
 
-          <div className="text-right">
-            {tournament.perKillPrize > 0 ? (
-              <p className="text-yellow-400 font-bold text-lg">
-                ₹{(tournament.prize1 || 0) +
-                  ((tournament.results.first.kills || 0) *
-                    tournament.perKillPrize)}
-              </p>
-            ) : (
-              <p className="text-yellow-400 font-bold text-lg">
-                ₹{tournament.prize1 || 0}
-              </p>
-            )}
-          </div>
-        </div>
+<p className="text-gray-400 text-xs">
+IGN: {tournament.results.first.gameId}
+</p>
 
-        {/* Per Kill Breakdown */}
-        {tournament.perKillPrize > 0 && (
-          <div className="mt-3 pt-3 border-t border-yellow-500/20 text-xs text-gray-300 space-y-1">
-            <p>Position Prize: ₹{tournament.prize1 || 0}</p>
-            <p>Kills: {tournament.results.first.kills || 0}</p>
-            <p>Per Kill: ₹{tournament.perKillPrize}</p>
-          </div>
-        )}
-      </div>
-    )}
+</div>
+
+<p className="text-yellow-400 font-bold text-lg">
+₹{(tournament.prize1 || 0) +
+((tournament.results?.first?.kills ?? 0) * (tournament.perKillPrize || 0))}
+</p>
+
+</div>
+
+  {/* Per Kill Breakdown */}
+{tournament.perKillPrize > 0 && (
+<div className="mt-3 pt-3 border-t border-yellow-500/20 text-xs text-gray-300 space-y-1">
+
+<p>Position Prize: ₹{tournament.prize1 || 0}</p>
+<p>Kills: {tournament.results?.first?.kills ?? 0}</p>
+<p className="text-green-400">
+Kill Prize: ₹{(tournament.results?.first?.kills ?? 0) * (tournament.perKillPrize || 0)}
+</p>
+
+</div>
+)}
+
+</div>
+)}
 
     {/* 2nd Place */}
-    {tournament.results.second && (
-      <div className="bg-gray-500/10 border border-gray-500/30 
-        rounded-xl p-4 shadow-md">
+    {tournament.results?.second && (
+<div className="bg-gray-500/10 border border-gray-500/30 rounded-xl p-4 shadow-md">
 
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-gray-300 font-bold text-sm">
-              🥈 2nd Place
-            </p>
+<div className="flex justify-between items-start">
 
-            <p className="text-white font-semibold text-base mt-1">
-              {tournament.results.second.name}
-            </p>
+<div>
 
-            <p className="text-gray-400 text-xs">
-              IGN: {tournament.results.second.gameId}
-            </p>
-          </div>
+<p className="text-gray-300 font-bold text-sm">
+🥈 2nd Place
+</p>
 
-          <p className="text-gray-200 font-bold text-lg">
-            ₹{tournament.prize2 || 0}
-          </p>
-        </div>
-      </div>
-    )}
+<p className="text-white font-semibold text-base mt-1">
+{tournament.results.second.name}
+</p>
+
+<p className="text-gray-400 text-xs">
+IGN: {tournament.results.second.gameId}
+</p>
+
+</div>
+
+<p className="text-gray-200 font-bold text-lg">
+₹{(tournament.prize2 || 0) +
+((tournament.results?.second?.kills ?? 0) * (tournament.perKillPrize || 0))}
+</p>
+
+</div>
+
+  {/* Per Kill Breakdown */}
+{tournament.perKillPrize > 0 && (
+<div className="mt-3 pt-3 border-t border-gray-500/20 text-xs text-gray-300 space-y-1">
+
+<p>Position Prize: ₹{tournament.prize2 || 0}</p>
+<p>Kills: {tournament.results?.second?.kills ?? 0}</p>
+<p className="text-green-400">
+Kill Prize: ₹{(tournament.results?.second?.kills ?? 0) * (tournament.perKillPrize || 0)}
+</p>
+
+</div>
+)}
+
+</div>
+)}
 
     {/* 3rd Place */}
-    {tournament.results.third && (
-      <div className="bg-orange-500/10 border border-orange-500/30 
-        rounded-xl p-4 shadow-md">
+    {tournament.results?.third && (
+<div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 shadow-md">
 
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-orange-400 font-bold text-sm">
-              🥉 3rd Place
-            </p>
+<div className="flex justify-between items-start">
 
-            <p className="text-white font-semibold text-base mt-1">
-              {tournament.results.third.name}
-            </p>
+<div>
 
-            <p className="text-gray-400 text-xs">
-              IGN: {tournament.results.third.gameId}
-            </p>
-          </div>
+<p className="text-orange-400 font-bold text-sm">
+🥉 3rd Place
+</p>
 
-          <p className="text-orange-400 font-bold text-lg">
-            ₹{tournament.prize3 || 0}
-          </p>
-        </div>
-      </div>
-    )}
+<p className="text-white font-semibold text-base mt-1">
+{tournament.results.third.name}
+</p>
+
+<p className="text-gray-400 text-xs">
+IGN: {tournament.results.third.gameId}
+</p>
+
+</div>
+
+<p className="text-orange-400 font-bold text-lg">
+₹{(tournament.prize3 || 0) +
+((tournament.results?.third?.kills ?? 0) * (tournament.perKillPrize || 0))}
+</p>
+
+</div>
+  
+{/* Per Kill Breakdown */}
+{tournament.perKillPrize > 0 && (
+<div className="mt-3 pt-3 border-t border-orange-500/20 text-xs text-gray-300 space-y-1">
+
+<p>Position Prize: ₹{tournament.prize3 || 0}</p>
+<p>Kills: {tournament.results?.third?.kills ?? 0}</p>
+<p className="text-green-400">
+Kill Prize: ₹{(tournament.results?.third?.kills ?? 0) * (tournament.perKillPrize || 0)}
+</p>
+
+</div>
+)}
+
+</div>
+)}
 
     {/* Per Kill Info (Global Info Card) */}
     {tournament.perKillPrize > 0 && (
