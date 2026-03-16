@@ -147,7 +147,7 @@ export default function Login() {
 
       await setDoc(userRef, {
         uid: user.uid,
-        displayName: user.displayName ? user.displayName : user.email.split("@")[0],
+        displayName: user.displayName || "User",
         email: user.email || "",
         phone: "",
         photoURL: user.photoURL || "",
@@ -172,10 +172,6 @@ export default function Login() {
         updatedAt: new Date()
       });
     }
-
-    const updatedSnap = await getDoc(userRef);
-const updatedUser = updatedSnap.data();
-localStorage.setItem("user", JSON.stringify(updatedUser));
 
     navigate("/home");
 
