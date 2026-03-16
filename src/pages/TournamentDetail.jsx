@@ -601,13 +601,39 @@ export default function TournamentDetail() {
 🥇 1st Place
 </p>
 
+{tournament.matchType === "solo" ? (
+
 <p className="text-white font-semibold text-base mt-1">
 {tournament.results.first.name}
 </p>
 
+) : (
+
+<div className="mt-1 space-y-1">
+{tournament.results.first.teamMembers?.map((player,i)=>(
+<p key={i} className="text-white text-sm">
+{player.name}
+</p>
+))}
+</div>
+
+)}
+
+{tournament.matchType === "solo" ? (
+
 <p className="text-gray-400 text-xs">
 IGN: {tournament.results.first.gameId}
 </p>
+
+) : (
+
+<div className="text-gray-400 text-xs">
+{tournament.results.first.teamMembers?.map((player,i)=>(
+<p key={i}>IGN: {player.gameId}</p>
+))}
+</div>
+
+)}
 
 </div>
 
@@ -646,6 +672,9 @@ Kill Prize: ₹{(tournament.results?.first?.kills ?? 0) * (tournament.perKillPri
 🥈 2nd Place
 </p>
 
+{tournament.matchType === "solo" ? (
+
+<>
 <p className="text-white font-semibold text-base mt-1">
 {tournament.results.second.name}
 </p>
@@ -653,6 +682,27 @@ Kill Prize: ₹{(tournament.results?.first?.kills ?? 0) * (tournament.perKillPri
 <p className="text-gray-400 text-xs">
 IGN: {tournament.results.second.gameId}
 </p>
+</>
+
+) : (
+
+<div className="mt-1 space-y-1">
+
+{tournament.results.second.teamMembers?.map((player,i)=>(
+<p key={i} className="text-white text-sm">
+{player.name}
+</p>
+))}
+
+<div className="text-gray-400 text-xs">
+{tournament.results.second.teamMembers?.map((player,i)=>(
+<p key={i}>IGN: {player.gameId}</p>
+))}
+</div>
+
+</div>
+
+)}
 
 </div>
 
@@ -691,6 +741,9 @@ Kill Prize: ₹{(tournament.results?.second?.kills ?? 0) * (tournament.perKillPr
 🥉 3rd Place
 </p>
 
+{tournament.matchType === "solo" ? (
+
+<>
 <p className="text-white font-semibold text-base mt-1">
 {tournament.results.third.name}
 </p>
@@ -698,6 +751,27 @@ Kill Prize: ₹{(tournament.results?.second?.kills ?? 0) * (tournament.perKillPr
 <p className="text-gray-400 text-xs">
 IGN: {tournament.results.third.gameId}
 </p>
+</>
+
+) : (
+
+<div className="mt-1 space-y-1">
+
+{tournament.results.third.teamMembers?.map((player,i)=>(
+<p key={i} className="text-white text-sm">
+{player.name}
+</p>
+))}
+
+<div className="text-gray-400 text-xs">
+{tournament.results.third.teamMembers?.map((player,i)=>(
+<p key={i}>IGN: {player.gameId}</p>
+))}
+</div>
+
+</div>
+
+)}
 
 </div>
 
