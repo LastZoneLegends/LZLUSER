@@ -620,12 +620,19 @@ return(
 <div key={i} className="flex justify-between items-center"><div>
 <p className="text-white text-sm">{player.name}</p>
 <p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
-</div><div className="flex-1 text-center">
-{tournament.perKillPrize > 0 && (
-<p className="text-gray-300 text-xs">Kills: {kills}</p>
-)}
-</div><div className="text-right">
-<p className="text-green-400 font-semibold text-sm">₹{total}</p>
+</div>
+  
+  <div className="flex-1 flex flex-col items-center justify-center">
+  {tournament.perKillPrize > 0 && (
+    <p className="text-gray-300 text-xs">
+      Kills: {kills}
+    </p>
+  )}
+
+  <p className="text-green-400 font-semibold text-sm">
+    ₹{total}
+  </p>
+
 </div></div>
 )
 })}</div>
@@ -674,10 +681,18 @@ return(
 <div key={i} className="flex justify-between items-center"><div>
 <p className="text-white text-sm">{player.name}</p>
 <p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
-</div><div className="flex-1 text-center">
-{tournament.perKillPrize > 0 && (
-<p className="text-gray-300 text-xs">Kills: {kills}</p>
-)}
+</div>
+  <div className="flex-1 flex flex-col items-center justify-center">
+  {tournament.perKillPrize > 0 && (
+    <p className="text-gray-300 text-xs">
+      Kills: {kills}
+    </p>
+  )}
+
+  <p className="text-green-400 font-semibold text-sm">
+    ₹{total}
+  </p>
+
 </div><div className="text-right">
 <p className="text-green-400 font-semibold text-sm">₹{total}</p>
 </div></div>
@@ -728,10 +743,18 @@ return(
 <div key={i} className="flex justify-between items-center"><div>
 <p className="text-white text-sm">{player.name}</p>
 <p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
-</div><div className="flex-1 text-center">
-{tournament.perKillPrize > 0 && (
-<p className="text-gray-300 text-xs">Kills: {kills}</p>
-)}
+</div>
+  <div className="flex-1 flex flex-col items-center justify-center">
+  {tournament.perKillPrize > 0 && (
+    <p className="text-gray-300 text-xs">
+      Kills: {kills}
+    </p>
+  )}
+
+  <p className="text-green-400 font-semibold text-sm">
+    ₹{total}
+  </p>
+
 </div><div className="text-right">
 <p className="text-green-400 font-semibold text-sm">₹{total}</p>
 </div></div>
@@ -757,24 +780,22 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
     {tournament.perKillPrize > 0 && (
       <div className="bg-primary-500/10 border border-primary-500/30 
         rounded-xl p-3 text-center text-sm text-primary-300">
-        Per Kill Reward: â‚¹{tournament.perKillPrize} per kill
+        Per Kill Reward: ₹{tournament.perKillPrize} per kill
       </div>
     )}
 
     {/* All Players Kill Rewards */}
 {tournament?.perKillPrize > 0 &&
+
+  const winnerIds = [
+  ...(tournament.results?.first?.teamMembers || []).map(p => p.gameId),
+  ...(tournament.results?.second?.teamMembers || []).map(p => p.gameId),
+  ...(tournament.results?.third?.teamMembers || []).map(p => p.gameId),
+]
+  
 tournament?.participantDetails?.filter((player) => {
-
-if (
-player.odeuName === tournament.results?.first?.name ||
-player.odeuName === tournament.results?.second?.name ||
-player.odeuName === tournament.results?.third?.name
-) {
-return false;
-}
-
-return (player.kills || 0) > 0;
-
+  return (player.kills || 0) > 0 &&
+         !winnerIds.includes(player.odeuGameId)
 }).length > 0 && (
 
 <div className="mt-4 bg-dark-400 rounded-xl p-4">
@@ -786,18 +807,9 @@ All Player Kill Rewards
 <div className="space-y-3">
 
 {tournament?.participantDetails
-?.filter((player) => {
-
-if (
-player.odeuName === tournament.results?.first?.name ||
-player.odeuName === tournament.results?.second?.name ||
-player.odeuName === tournament.results?.third?.name
-) {
-return false;
-}
-
-return (player.kills || 0) > 0;
-
+?..filter((player) => {
+  return (player.kills || 0) > 0 &&
+         !winnerIds.includes(player.odeuGameId)
 })
 .map((player, index) => {
 
@@ -829,7 +841,7 @@ Kills: {player.kills}
 </p>
 
 <p className="text-green-400 text-xs font-semibold">
-Kill Prize: â‚¹{killPrize}
+Kill Prize: ₹{killPrize}
 </p>
 
 </div>
