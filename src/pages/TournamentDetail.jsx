@@ -806,7 +806,7 @@ All Player Kill Rewards
 
 <div className="space-y-3">
 
-{tournament?.participantDetails?..filter((player) => {
+{tournament?.participantDetails?.filter((player) => {
   return (player.kills || 0) > 0 &&
          !winnerIds.includes(player.odeuGameId)
 })
