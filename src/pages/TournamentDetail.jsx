@@ -761,117 +761,169 @@ return(
 ((tournament.results?.second?.kills ?? 0) * (tournament.perKillPrize || 0))}
 </p>
 
-</div>
+{/* ================= RESULTS SECTION ================= */}
+{tournament?.results && (
 
-  {/* Per Kill Breakdown */}
-{tournament.perKillPrize > 0 && (
-<div className="mt-3 pt-3 border-t border-gray-500/20 text-xs text-gray-300 space-y-1">
+<div className="mt-4 space-y-4">{/* ================= 1st Place ================= */}
+{tournament.results?.first && (
 
-<p>Position Prize: ₹{tournament.prize2 || 0}</p>
-<p>Kills: {tournament.results?.second?.kills ?? 0}</p>
-<p className="text-green-400">
-Kill Prize: ₹{(tournament.results?.second?.kills ?? 0) * (tournament.perKillPrize || 0)}
-</p>
-
-</div>
-)}
-
-</div>
-)}
-
-    {/* 3rd Place */}
-    {tournament.results?.third && (
-<div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 shadow-md">
-
-<div className="flex justify-between items-start">
-
-<div>
-
-<p className="text-orange-400 font-bold text-sm">
-🥉 3rd Place
-</p>
-
-{tournament.matchType === "solo" ? (
-
+<div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div><p className="text-yellow-400 font-bold text-sm">🥇 1st Place</p>{tournament.matchType === "solo" ? (
 <>
+
+<p className="text-white font-semibold text-base mt-1">
+{tournament.results.first.name}
+</p><p className="text-gray-400 text-xs">
+IGN: {tournament.results.first.gameId}
+</p>{tournament.perKillPrize > 0 && (
+
+<p className="text-gray-300 text-xs mt-1">
+Kills: {tournament.results.first.kills || 0}
+</p>
+)}
+</>
+) : (<div className="mt-2 space-y-2">
+{tournament.results.first.teamMembers?.map((player,i)=>{const teamSize = tournament.results.first.teamMembers.length
+const basePrize = (tournament.prize1 || 0) / teamSize
+const kills = player.kills || 0
+const killReward = kills * (tournament.perKillPrize || 0)
+const total = basePrize + killReward
+
+return(
+
+<div key={i} className="flex justify-between items-center"><div>
+<p className="text-white text-sm">{player.name}</p>
+<p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
+</div><div className="flex-1 text-center">
+{tournament.perKillPrize > 0 && (
+<p className="text-gray-300 text-xs">Kills: {kills}</p>
+)}
+</div><div className="text-right">
+<p className="text-green-400 text-sm font-semibold">₹{total}</p>
+</div></div>
+)
+})}
+</div>)}
+
+</div><p className="text-yellow-400 font-bold text-lg">
+₹{tournament.prize1 || 0}
+</p></div>{/* SOLO BREAKDOWN */}
+{tournament.matchType === "solo" && tournament.perKillPrize > 0 && (
+
+<div className="mt-3 pt-3 border-t border-yellow-500/20 text-xs text-gray-300 space-y-1">
+<p>Position Prize: ₹{tournament.prize1 || 0}</p>
+<p>Kills: {tournament.results.first.kills || 0}</p>
+<p className="text-green-400">
+Kill Prize: ₹{(tournament.results.first.kills || 0) * (tournament.perKillPrize || 0)}
+</p>
+</div>
+)}</div>
+)}{/* ================= 2nd Place ================= */}
+{tournament.results?.second && (
+
+<div className="bg-gray-500/10 border border-gray-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div><p className="text-gray-300 font-bold text-sm">🥈 2nd Place</p>{tournament.matchType === "solo" ? (
+<>
+
+<p className="text-white font-semibold text-base mt-1">
+{tournament.results.second.name}
+</p><p className="text-gray-400 text-xs">
+IGN: {tournament.results.second.gameId}
+</p>{tournament.perKillPrize > 0 && (
+
+<p className="text-gray-300 text-xs mt-1">
+Kills: {tournament.results.second.kills || 0}
+</p>
+)}
+</>
+) : (<div className="mt-2 space-y-2">
+{tournament.results.second.teamMembers?.map((player,i)=>{const teamSize = tournament.results.second.teamMembers.length
+const basePrize = (tournament.prize2 || 0) / teamSize
+const kills = player.kills || 0
+const killReward = kills * (tournament.perKillPrize || 0)
+const total = basePrize + killReward
+
+return(
+
+<div key={i} className="flex justify-between items-center"><div>
+<p className="text-white text-sm">{player.name}</p>
+<p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
+</div><div className="flex-1 text-center">
+{tournament.perKillPrize > 0 && (
+<p className="text-gray-300 text-xs">Kills: {kills}</p>
+)}
+</div><div className="text-right">
+<p className="text-green-400 text-sm font-semibold">₹{total}</p>
+</div></div>
+)
+})}
+</div>)}
+
+</div><p className="text-gray-200 font-bold text-lg">
+₹{tournament.prize2 || 0}
+</p></div>{/* SOLO BREAKDOWN */}
+{tournament.matchType === "solo" && tournament.perKillPrize > 0 && (
+
+<div className="mt-3 pt-3 border-t border-gray-500/20 text-xs text-gray-300 space-y-1">
+<p>Position Prize: ₹{tournament.prize2 || 0}</p>
+<p>Kills: {tournament.results.second.kills || 0}</p>
+<p className="text-green-400">
+Kill Prize: ₹{(tournament.results.second.kills || 0) * (tournament.perKillPrize || 0)}
+</p>
+</div>
+)}</div>
+)}{/* ================= 3rd Place ================= */}
+{tournament.results?.third && (
+
+<div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div><p className="text-orange-400 font-bold text-sm">🥉 3rd Place</p>{tournament.matchType === "solo" ? (
+<>
+
 <p className="text-white font-semibold text-base mt-1">
 {tournament.results.third.name}
-</p>
-
-<p className="text-gray-400 text-xs">
+</p><p className="text-gray-400 text-xs">
 IGN: {tournament.results.third.gameId}
+</p>{tournament.perKillPrize > 0 && (
+
+<p className="text-gray-300 text-xs mt-1">
+Kills: {tournament.results.third.kills || 0}
 </p>
+)}
 </>
-
-) : (
-
-<div className="mt-1 space-y-1">
-
-<div className="mt-1 space-y-1">
-
-{tournament.results.third.teamMembers?.map((player,i)=>{
-
-const teamSize = tournament.results.third.teamMembers.length
+) : (<div className="mt-2 space-y-2">
+{tournament.results.third.teamMembers?.map((player,i)=>{const teamSize = tournament.results.third.teamMembers.length
 const basePrize = (tournament.prize3 || 0) / teamSize
 const kills = player.kills || 0
 const killReward = kills * (tournament.perKillPrize || 0)
 const total = basePrize + killReward
 
 return(
-<div key={i} className="flex justify-between text-sm">
 
-<div>
-<p className="text-white">{player.name}</p>
+<div key={i} className="flex justify-between items-center"><div>
+<p className="text-white text-sm">{player.name}</p>
 <p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
-</div>
-
-<div className="text-right">
+</div><div className="flex-1 text-center">
 {tournament.perKillPrize > 0 && (
 <p className="text-gray-300 text-xs">Kills: {kills}</p>
 )}
-<p className="text-green-400">₹{total}</p>
-</div>
-
-</div>
+</div><div className="text-right">
+<p className="text-green-400 text-sm font-semibold">₹{total}</p>
+</div></div>
 )
-
 })}
+</div>)}
 
-</div>
+</div><p className="text-orange-400 font-bold text-lg">
+₹{tournament.prize3 || 0}
+</p></div>{/* SOLO BREAKDOWN */}
+{tournament.matchType === "solo" && tournament.perKillPrize > 0 && (
 
-<div className="text-gray-400 text-xs">
-{tournament.results.third.teamMembers?.map((player,i)=>(
-<p key={i}>IGN: {player.gameId}</p>
-))}
-</div>
-
-</div>
-
-)}
-
-</div>
-
-<p className="text-orange-400 font-bold text-lg">
-₹{(tournament.prize3 || 0) +
-((tournament.results?.third?.kills ?? 0) * (tournament.perKillPrize || 0))}
-</p>
-
-</div>
-  
-{/* Per Kill Breakdown */}
-{tournament.perKillPrize > 0 && (
 <div className="mt-3 pt-3 border-t border-orange-500/20 text-xs text-gray-300 space-y-1">
-
 <p>Position Prize: ₹{tournament.prize3 || 0}</p>
-<p>Kills: {tournament.results?.third?.kills ?? 0}</p>
+<p>Kills: {tournament.results.third.kills || 0}</p>
 <p className="text-green-400">
-Kill Prize: ₹{(tournament.results?.third?.kills ?? 0) * (tournament.perKillPrize || 0)}
+Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize || 0)}
 </p>
-
 </div>
-)}
-
-</div>
+)}</div>
+)}</div>
 )}
 
     {/* Per Kill Info (Global Info Card) */}
