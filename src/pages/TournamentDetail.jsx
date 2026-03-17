@@ -107,6 +107,12 @@ export default function TournamentDetail() {
     }
   };
 
+  const winnerIds = [
+  ...(tournament?.results?.first?.teamMembers || []).map(p => p.gameId),
+  ...(tournament?.results?.second?.teamMembers || []).map(p => p.gameId),
+  ...(tournament?.results?.third?.teamMembers || []).map(p => p.gameId),
+]
+
   const openJoinModal = () => {
     if (!currentUser) {
       navigate('/login');
@@ -787,11 +793,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
     {/* All Players Kill Rewards */}
 {tournament?.perKillPrize > 0 &&
 
-  const winnerIds = [
-  ...(tournament.results?.first?.teamMembers || []).map(p => p.gameId),
-  ...(tournament.results?.second?.teamMembers || []).map(p => p.gameId),
-  ...(tournament.results?.third?.teamMembers || []).map(p => p.gameId),
-]
+  
   
 tournament?.participantDetails?.filter((player) => {
   return (player.kills || 0) > 0 &&
