@@ -610,11 +610,35 @@ export default function TournamentDetail() {
 ) : (
 
 <div className="mt-1 space-y-1">
-{tournament.results.first.teamMembers?.map((player,i)=>(
-<p key={i} className="text-white text-sm">
-{player.name}
-</p>
-))}
+
+{tournament.results.first.teamMembers?.map((player,i)=>{
+
+const teamSize = tournament.results.first.teamMembers.length
+const basePrize = (tournament.prize1 || 0) / teamSize
+const kills = player.kills || 0
+const killReward = kills * (tournament.perKillPrize || 0)
+const total = basePrize + killReward
+
+return(
+<div key={i} className="flex justify-between text-sm">
+
+<div>
+<p className="text-white">{player.name}</p>
+<p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
+</div>
+
+<div className="text-right">
+{tournament.perKillPrize > 0 && (
+<p className="text-gray-300 text-xs">Kills: {kills}</p>
+)}
+<p className="text-green-400">₹{total}</p>
+</div>
+
+</div>
+)
+
+})}
+
 </div>
 
 )}
@@ -688,11 +712,37 @@ IGN: {tournament.results.second.gameId}
 
 <div className="mt-1 space-y-1">
 
-{tournament.results.second.teamMembers?.map((player,i)=>(
-<p key={i} className="text-white text-sm">
-{player.name}
-</p>
-))}
+<div className="mt-1 space-y-1">
+
+{tournament.results.second.teamMembers?.map((player,i)=>{
+
+const teamSize = tournament.results.second.teamMembers.length
+const basePrize = (tournament.prize2 || 0) / teamSize
+const kills = player.kills || 0
+const killReward = kills * (tournament.perKillPrize || 0)
+const total = basePrize + killReward
+
+return(
+<div key={i} className="flex justify-between text-sm">
+
+<div>
+<p className="text-white">{player.name}</p>
+<p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
+</div>
+
+<div className="text-right">
+{tournament.perKillPrize > 0 && (
+<p className="text-gray-300 text-xs">Kills: {kills}</p>
+)}
+<p className="text-green-400">₹{total}</p>
+</div>
+
+</div>
+)
+
+})}
+
+</div>
 
 <div className="text-gray-400 text-xs">
 {tournament.results.second.teamMembers?.map((player,i)=>(
@@ -757,11 +807,37 @@ IGN: {tournament.results.third.gameId}
 
 <div className="mt-1 space-y-1">
 
-{tournament.results.third.teamMembers?.map((player,i)=>(
-<p key={i} className="text-white text-sm">
-{player.name}
-</p>
-))}
+<div className="mt-1 space-y-1">
+
+{tournament.results.third.teamMembers?.map((player,i)=>{
+
+const teamSize = tournament.results.third.teamMembers.length
+const basePrize = (tournament.prize3 || 0) / teamSize
+const kills = player.kills || 0
+const killReward = kills * (tournament.perKillPrize || 0)
+const total = basePrize + killReward
+
+return(
+<div key={i} className="flex justify-between text-sm">
+
+<div>
+<p className="text-white">{player.name}</p>
+<p className="text-gray-400 text-xs">IGN: {player.gameId}</p>
+</div>
+
+<div className="text-right">
+{tournament.perKillPrize > 0 && (
+<p className="text-gray-300 text-xs">Kills: {kills}</p>
+)}
+<p className="text-green-400">₹{total}</p>
+</div>
+
+</div>
+)
+
+})}
+
+</div>
 
 <div className="text-gray-400 text-xs">
 {tournament.results.third.teamMembers?.map((player,i)=>(
