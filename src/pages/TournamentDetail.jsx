@@ -585,16 +585,15 @@ export default function TournamentDetail() {
       </div>
 
 {/* If Results Exist */}
-{/* ================= RESULTS SECTION ================= */}
 
-
-{/* ================= RESULTS SECTION ================= */}
-{tournament?.results && (
+      {/* ================= RESULTS SECTION ================= */}
+{tournament?.results ? (
 
 <div className="mt-4 space-y-4">{/* ================= 1st Place ================= */}
 {tournament.results?.first && (
 
-<div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div><p className="text-yellow-400 font-bold text-sm">🥇 1st Place</p>{tournament.matchType === "solo" ? (
+<div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div>
+<p className="text-yellow-400 font-bold text-sm">🥇 1st Place</p>{tournament.matchType === "solo" ? (
 <>
 
 <p className="text-white font-semibold text-base mt-1">
@@ -608,12 +607,13 @@ Kills: {tournament.results.first.kills || 0}
 </p>
 )}
 </>
-) : (<div className="mt-2 space-y-2">
-{tournament.results.first.teamMembers?.map((player,i)=>{const teamSize = tournament.results.first.teamMembers.length
+) : (
+<div className="mt-2 space-y-2">{tournament.results.first.teamMembers?.map((player,i)=>{
+
+const teamSize = tournament.results.first.teamMembers.length
 const basePrize = (tournament.prize1 || 0) / teamSize
 const kills = player.kills || 0
-const killReward = kills * (tournament.perKillPrize || 0)
-const total = basePrize + killReward
+const total = basePrize + (kills * (tournament.perKillPrize || 0))
 
 return(
 
@@ -625,12 +625,11 @@ return(
 <p className="text-gray-300 text-xs">Kills: {kills}</p>
 )}
 </div><div className="text-right">
-<p className="text-green-400 text-sm font-semibold">₹{total}</p>
+<p className="text-green-400 font-semibold text-sm">₹{total}</p>
 </div></div>
 )
-})}
-</div>)}
-
+})}</div>
+)}
 </div><p className="text-yellow-400 font-bold text-lg">
 ₹{tournament.prize1 || 0}
 </p></div>{/* SOLO BREAKDOWN */}
@@ -647,7 +646,8 @@ Kill Prize: ₹{(tournament.results.first.kills || 0) * (tournament.perKillPrize
 )}{/* ================= 2nd Place ================= */}
 {tournament.results?.second && (
 
-<div className="bg-gray-500/10 border border-gray-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div><p className="text-gray-300 font-bold text-sm">🥈 2nd Place</p>{tournament.matchType === "solo" ? (
+<div className="bg-gray-500/10 border border-gray-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div>
+<p className="text-gray-300 font-bold text-sm">🥈 2nd Place</p>{tournament.matchType === "solo" ? (
 <>
 
 <p className="text-white font-semibold text-base mt-1">
@@ -661,12 +661,13 @@ Kills: {tournament.results.second.kills || 0}
 </p>
 )}
 </>
-) : (<div className="mt-2 space-y-2">
-{tournament.results.second.teamMembers?.map((player,i)=>{const teamSize = tournament.results.second.teamMembers.length
+) : (
+<div className="mt-2 space-y-2">{tournament.results.second.teamMembers?.map((player,i)=>{
+
+const teamSize = tournament.results.second.teamMembers.length
 const basePrize = (tournament.prize2 || 0) / teamSize
 const kills = player.kills || 0
-const killReward = kills * (tournament.perKillPrize || 0)
-const total = basePrize + killReward
+const total = basePrize + (kills * (tournament.perKillPrize || 0))
 
 return(
 
@@ -678,12 +679,11 @@ return(
 <p className="text-gray-300 text-xs">Kills: {kills}</p>
 )}
 </div><div className="text-right">
-<p className="text-green-400 text-sm font-semibold">₹{total}</p>
+<p className="text-green-400 font-semibold text-sm">₹{total}</p>
 </div></div>
 )
-})}
-</div>)}
-
+})}</div>
+)}
 </div><p className="text-gray-200 font-bold text-lg">
 ₹{tournament.prize2 || 0}
 </p></div>{/* SOLO BREAKDOWN */}
@@ -700,7 +700,8 @@ Kill Prize: ₹{(tournament.results.second.kills || 0) * (tournament.perKillPriz
 )}{/* ================= 3rd Place ================= */}
 {tournament.results?.third && (
 
-<div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div><p className="text-orange-400 font-bold text-sm">🥉 3rd Place</p>{tournament.matchType === "solo" ? (
+<div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 shadow-md"><div className="flex justify-between items-start"><div>
+<p className="text-orange-400 font-bold text-sm">🥉 3rd Place</p>{tournament.matchType === "solo" ? (
 <>
 
 <p className="text-white font-semibold text-base mt-1">
@@ -714,12 +715,13 @@ Kills: {tournament.results.third.kills || 0}
 </p>
 )}
 </>
-) : (<div className="mt-2 space-y-2">
-{tournament.results.third.teamMembers?.map((player,i)=>{const teamSize = tournament.results.third.teamMembers.length
+) : (
+<div className="mt-2 space-y-2">{tournament.results.third.teamMembers?.map((player,i)=>{
+
+const teamSize = tournament.results.third.teamMembers.length
 const basePrize = (tournament.prize3 || 0) / teamSize
 const kills = player.kills || 0
-const killReward = kills * (tournament.perKillPrize || 0)
-const total = basePrize + killReward
+const total = basePrize + (kills * (tournament.perKillPrize || 0))
 
 return(
 
@@ -731,12 +733,11 @@ return(
 <p className="text-gray-300 text-xs">Kills: {kills}</p>
 )}
 </div><div className="text-right">
-<p className="text-green-400 text-sm font-semibold">₹{total}</p>
+<p className="text-green-400 font-semibold text-sm">₹{total}</p>
 </div></div>
 )
-})}
-</div>)}
-
+})}</div>
+)}
 </div><p className="text-orange-400 font-bold text-lg">
 ₹{tournament.prize3 || 0}
 </p></div>{/* SOLO BREAKDOWN */}
@@ -750,111 +751,17 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
 </p>
 </div>
 )}</div>
-)}</div>
-)}
+)}{/* GLOBAL PER KILL */}
+{tournament.perKillPrize > 0 && (
 
-    {/* Per Kill Info (Global Info Card) */}
-    {tournament.perKillPrize > 0 && (
-      <div className="bg-primary-500/10 border border-primary-500/30 
-        rounded-xl p-3 text-center text-sm text-primary-300">
-        Per Kill Reward: ₹{tournament.perKillPrize} per kill
-      </div>
-    )}
-
-    {/* All Players Kill Rewards */}
-{tournament?.perKillPrize > 0 &&
-tournament?.participantDetails?.filter((player) => {
-
-if (
-player.odeuName === tournament.results?.first?.name ||
-player.odeuName === tournament.results?.second?.name ||
-player.odeuName === tournament.results?.third?.name
-) {
-return false;
-}
-
-return (player.kills || 0) > 0;
-
-}).length > 0 && (
-
-<div className="mt-4 bg-dark-400 rounded-xl p-4">
-
-<h3 className="text-white font-bold mb-3">
-All Player Kill Rewards
-</h3>
-
-<div className="space-y-3">
-
-{tournament?.participantDetails
-?.filter((player) => {
-
-if (
-player.odeuName === tournament.results?.first?.name ||
-player.odeuName === tournament.results?.second?.name ||
-player.odeuName === tournament.results?.third?.name
-) {
-return false;
-}
-
-return (player.kills || 0) > 0;
-
-})
-.map((player, index) => {
-
-const killPrize =
-(player.kills || 0) *
-(tournament.perKillPrize || 0);
-
-return (
-
-<div
-key={index}
-className="flex justify-between items-center bg-dark-300 p-3 rounded-lg border border-gray-700"
->
-
-<div>
-<p className="text-white font-semibold text-sm">
-{player.odeuName}
-</p>
-
-<p className="text-gray-400 text-xs">
-IGN: {player.odeuGameId}
-</p>
+<div className="bg-primary-500/10 border border-primary-500/30 rounded-xl p-3 text-center text-sm text-primary-300">
+Per Kill Reward: ₹{tournament.perKillPrize} per kill
 </div>
+)}</div>) : (
 
-<div className="text-right">
-
-<p className="text-gray-300 text-xs">
-Kills: {player.kills}
-</p>
-
-<p className="text-green-400 text-xs font-semibold">
-Kill Prize: ₹{killPrize}
-</p>
-
+<div className="text-center py-8">
+<p className="text-gray-400">Results not announced yet.</p>
 </div>
-
-</div>
-
-);
-
-})}
-
-</div>
-</div>
-
-)}
-
-  </div>
-
-) : (
-
-  <div className="text-center py-8">
-    <p className="text-gray-400">
-      Results not announced yet.
-    </p>
-  </div>
-
 )}
 
     </Card>
