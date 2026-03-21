@@ -833,7 +833,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
 <div className="mt-4 bg-dark-400 rounded-xl p-4">
 
 <h3 className="text-white font-bold mb-3">
-All Player Kill Rewards
+Full Result
 </h3>
 
 <div className="space-y-3">
