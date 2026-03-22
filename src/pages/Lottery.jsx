@@ -148,7 +148,7 @@ export default function Lottery() {
       <div className="px-4 py-4">
         <h1 className="text-xl font-bold text-white mb-4">Lucky Draw</h1>
 
-        <div className="flex gap-2 bg-dark-300 p-1 rounded-full w-fit mb-4">
+        <div className="flex w-full gap-3 mb-4">
 
   {[
     { value: "ongoing", label: "Ongoing" },
@@ -158,11 +158,11 @@ export default function Lottery() {
     <button
       key={option.value}
       onClick={() => setActiveTab(option.value)}
-      className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200
+      className={`flex-1 py-3 text-sm font-semibold rounded-2xl transition-all duration-300
         ${
           activeTab === option.value
-            ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
-            : "bg-dark-300 text-gray-400"
+            ? "bg-gradient-to-r from-primary-500 to-purple-500 text-white shadow-lg"
+            : "bg-dark-400 text-gray-400 hover:bg-dark-300"
         }`}
     >
       {option.label}
