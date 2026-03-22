@@ -8,7 +8,6 @@ import Card from '../components/common/Card';
 import Badge from '../components/common/Badge';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
-import Tabs from '../components/common/Tabs';
 import Loader from '../components/common/Loader';
 import EmptyState from '../components/common/EmptyState';
 import { formatCurrency, formatDate } from '../utils/formatters';
@@ -122,9 +121,17 @@ export default function Lottery() {
     { value: 'results', label: 'Results' }
   ];
 
-  const filteredLotteries = activeTab === 'ongoing'
-    ? lotteries.filter(l => l.status === 'upcoming' || l.status === 'ongoing')
-    : lotteries.filter(l => l.status === 'finished');
+  const filteredLotteries =
+  activeTab === "ongoing"
+    ? lotteries.filter(
+        l =>
+          l.status === "ongoing" ||
+          !l.status ||
+          l.status === "upcoming"
+      )
+    : lotteries.filter(
+        l => l.status === "finished"
+      );
 
   if (loading) {
     return (
@@ -141,7 +148,29 @@ export default function Lottery() {
       <div className="px-4 py-4">
         <h1 className="text-xl font-bold text-white mb-4">Lucky Draw</h1>
 
-        <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} className="mb-4" />
+        <div className="flex gap-2 mb-4">
+
+  {[
+    { value: "ongoing", label: "Ongoing" },
+    { value: "results", label: "Results" }
+  ].map(option => (
+
+    <button
+      key={option.value}
+      onClick={() => setActiveTab(option.value)}
+      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+        ${
+          activeTab === option.value
+            ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+            : "bg-dark-300 text-gray-400"
+        }`}
+    >
+      {option.label}
+    </button>
+
+  ))}
+
+</div>
 
         {filteredLotteries.length === 0 ? (
           <EmptyState
