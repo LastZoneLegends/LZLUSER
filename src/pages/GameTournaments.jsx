@@ -38,7 +38,7 @@ export default function GameTournaments() {
         getDocs(query(
           collection(db, 'tournaments'),
           where('gameId', '==', id),
-          orderBy('startDateTime', 'asc')
+          orderBy('startDateTime', 'desc')
         ))
       ]);
 
