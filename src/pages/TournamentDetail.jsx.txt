@@ -618,9 +618,9 @@ IGN: {tournament.results.first.gameId}
 
 </>
 ):(
-<div className="mt-2 space-y-2">{tournament.results.first.teamMembers
-  ?.filter(player => !tournament.results?.excludedPlayers?.includes(player.odeuId))
-  .map((player,i)=>{
+<div className="mt-2 space-y-2">{tournament.results.first.teamMembers.filter(player =>
+!tournament.results?.excludedPlayers?.includes(player.gameId || player.odeuId))
+  .map((player, i) => {
 
 const teamSize = tournament.results.first.teamMembers.length
 const basePrize = (tournament.prize1 || 0) / teamSize
@@ -689,9 +689,9 @@ IGN: {tournament.results.second.gameId}
 
 </>
 ) : (
-<div className="mt-2 space-y-2">{tournament.results.second.teamMembers
-  ?.filter(player => !tournament.results?.excludedPlayers?.includes(player.odeuId))
-  .map((player,i)=>{
+<div className="mt-2 space-y-2">{tournament.results.second.teamMembers.filter(player =>
+!tournament.results?.excludedPlayers?.includes(player.gameId || player.odeuId))
+  .map((player, i) => {
 
 const teamSize = tournament.results.second.teamMembers.length
 const basePrize = (tournament.prize2 || 0) / teamSize
@@ -760,9 +760,9 @@ IGN: {tournament.results.third.gameId}
 
 </>
 ) : (
-<div className="mt-2 space-y-2">{tournament.results.third.teamMembers
-  ?.filter(player => !tournament.results?.excludedPlayers?.includes(player.odeuId))
-  .map((player,i)=>{
+<div className="mt-2 space-y-2">{tournament.results.third.teamMembers.filter(player =>
+!tournament.results?.excludedPlayers?.includes(player.gameId || player.odeuId))
+  .map((player, i) => {
 
 const teamSize = tournament.results.third.teamMembers.length
 const basePrize = (tournament.prize3 || 0) / teamSize
