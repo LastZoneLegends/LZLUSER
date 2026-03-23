@@ -844,7 +844,6 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
           <Award className="w-5 h-5 text-green-400" />
         </div>
-          <Crosshair className="w-5 h-5 text-red-400" />
         <h3 className="text-lg font-bold text-white">
           Full Result
         </h3>
