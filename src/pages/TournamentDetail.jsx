@@ -662,7 +662,15 @@ tournament.matchType === "solo"
 ? (tournament.results.first?.prizePerMember || 0) +
 ((tournament.results.first?.kills || 0) *
 (tournament.perKillPrize || 0))
-: (tournament.results.first?.prizePerMember || 0)
+: (tournament.results.first?.prizePerMember || 0) *
+(
+tournament.results.first?.teamMembers?.filter(
+player =>
+!tournament.results?.excludedPlayers?.includes(
+player.gameId || player.odeuId
+)
+).length || 0
+)
 }
 
 </p></div>{/* SOLO BREAKDOWN */}
@@ -738,7 +746,15 @@ tournament.matchType === "solo"
 ? (tournament.results.second?.prizePerMember || 0) +
 ((tournament.results.second?.kills || 0) *
 (tournament.perKillPrize || 0))
-: (tournament.results.second?.prizePerMember || 0)
+: (tournament.results.second?.prizePerMember || 0) *
+(
+tournament.results.second?.teamMembers?.filter(
+player =>
+!tournament.results?.excludedPlayers?.includes(
+player.gameId || player.odeuId
+)
+).length || 0
+)
 }
 
 </p></div>{/* SOLO BREAKDOWN */}
@@ -807,10 +823,18 @@ return(
 </div><p className="text-orange-400 font-bold text-lg">
 ₹{
 tournament.matchType === "solo"
-? (tournament.results.third?.prizePerMember || 0) +
-((tournament.results.third?.kills || 0) *
+? (tournament.results.second?.prizePerMember || 0) +
+((tournament.results.second?.kills || 0) *
 (tournament.perKillPrize || 0))
-: (tournament.results.third?.prizePerMember || 0)
+: (tournament.results.second?.prizePerMember || 0) *
+(
+tournament.results.second?.teamMembers?.filter(
+player =>
+!tournament.results?.excludedPlayers?.includes(
+player.gameId || player.odeuId
+)
+).length || 0
+)
 }
 
 </p></div>{/* SOLO BREAKDOWN */}
