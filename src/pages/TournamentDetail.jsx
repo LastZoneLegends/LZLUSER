@@ -625,10 +625,10 @@ IGN: {tournament.results.first.gameId}
   .map((player, i) => {
 
 const teamSize = tournament.results.first.teamMembers.length
-const basePrize = tournament.results.first.prizePerMember || 0
+const basePrize = Math.floor(tournament.results.first.prizePerMember || 0);
 const playerData = tournament.participantDetails?.find(p => p.odeuGameId === player.gameId);
 const kills = playerData?.kills || 0;
-const total = basePrize + (kills * (tournament.perKillPrize || 0))
+const total = Math.floor(basePrize + (kills * (tournament.perKillPrize || 0)));
 
 return(
 
@@ -709,10 +709,10 @@ IGN: {tournament.results.second.gameId}
   .map((player, i) => {
 
 const teamSize = tournament.results.second.teamMembers.length
-const basePrize = tournament.results.second.prizePerMember || 0
+const basePrize = Math.floor(tournament.results.second.prizePerMember || 0);
 const playerData = tournament.participantDetails?.find(p => p.odeuGameId === player.gameId);
 const kills = playerData?.kills || 0;
-const total = basePrize + (kills * (tournament.perKillPrize || 0))
+const total = Math.floor(basePrize + (kills * (tournament.perKillPrize || 0)));
 
 return(
 
@@ -789,10 +789,10 @@ IGN: {tournament.results.third.gameId}
   .map((player, i) => {
 
 const teamSize = tournament.results.third.teamMembers.length
-const basePrize = tournament.results.third.prizePerMember || 0
+const basePrize = Math.floor(tournament.results.third.prizePerMember || 0);
 const playerData = tournament.participantDetails?.find(p => p.odeuGameId === player.gameId );
 const kills = playerData?.kills || 0;
-const total = basePrize + (kills * (tournament.perKillPrize || 0))
+const total = Math.floor(basePrize + (kills * (tournament.perKillPrize || 0)));
 
 return(
 
