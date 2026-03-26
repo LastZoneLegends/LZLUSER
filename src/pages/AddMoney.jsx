@@ -134,114 +134,146 @@ export default function AddMoney() {
   }
 
   return (
-    <Layout hideNav>
-      {/* Header */}
-      <div className="sticky top-0 z-40 bg-dark-500 border-b border-dark-300">
-        <div className="flex items-center gap-3 px-4 py-3">
-          <button onClick={() => navigate(-1)} className="p-2 hover:bg-dark-300 rounded-full">
-            <ArrowLeft className="w-5 h-5 text-white" />
+  <Layout hideNav>
+
+    {/* Header */}
+
+    <div className="sticky top-0 z-40 bg-dark-500 border-b border-dark-300">
+      <div className="flex items-center gap-3 px-4 py-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-dark-300 rounded-full"
+        >
+          <ArrowLeft className="w-5 h-5 text-white" />
+        </button>
+
+        <h1 className="font-semibold text-white text-lg">
+          Add Money
+        </h1>
+      </div>
+    </div>
+
+
+    {/* Page Content */}
+
+    <div className="px-4 py-5">
+
+      {/* Enter Amount Card */}
+
+      <div className="bg-dark-400 rounded-2xl p-5 shadow-md">
+
+        <p className="text-gray-400 text-sm mb-2">
+          Enter Amount
+        </p>
+
+        <input
+          type="number"
+          value={formData.amount}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              amount: e.target.value
+            })
+          }
+          placeholder={`Minimum ₹${settings?.minDeposit || 20}`}
+          className="w-full bg-dark-300 border border-dark-200 rounded-xl px-4 py-3 text-lg text-white"
+        />
+
+      </div>
+
+
+      {/* Quick Amount Buttons */}
+
+      <div className="grid grid-cols-4 gap-3 mt-4 mb-5">
+
+        {[50, 100, 200, 500].map((amt) => (
+
+          <button
+            key={amt}
+            type="button"
+            onClick={() =>
+              setFormData({
+                ...formData,
+                amount: amt
+              })
+            }
+            className="bg-dark-400 border border-dark-200 py-2 rounded-lg hover:bg-primary-500/20 transition"
+          >
+            ₹{amt}
           </button>
-          <h1 className="font-semibold text-white">Add Money</h1>
+
+        ))}
+
+      </div>
+
+
+      {/* Pay Now Button */}
+
+      <button
+        type="button"
+        onClick={() => {
+
+          if (!formData.amount) {
+            alert("Enter amount first");
+            return;
+          }
+
+          window.location.href =
+            `upi://pay?pa=${settings?.upiId}&pn=LastZoneLegends&am=${formData.amount}&cu=INR`;
+
+        }}
+        className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 py-3 rounded-xl font-semibold text-lg shadow-lg"
+      >
+
+        Pay Now
+
+      </button>
+
+
+      {/* Instructions Card */}
+
+      <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mt-6">
+
+        <div className="flex gap-3">
+
+          <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
+
+          <div className="text-sm text-blue-300">
+
+            <p className="font-medium mb-1">
+              Instructions
+            </p>
+
+            <ol className="list-decimal list-inside space-y-1 text-blue-300/80">
+
+              <li>
+                Enter amount and tap Pay Now
+              </li>
+
+              <li>
+                Payment opens in GPay / PhonePe / Paytm
+              </li>
+
+              <li>
+                Use your username in remark (optional)
+              </li>
+
+              <li>
+                Wallet auto-update feature coming next 🚀
+              </li>
+
+            </ol>
+
+          </div>
+
         </div>
+
       </div>
 
-      <div className="px-4 py-4 space-y-4">
-        {/* UPI QR Code */}
-        <Card className="text-center">
-          <h3 className="font-semibold text-white mb-3">Scan & Pay</h3>
-          {settings?.upiQrImage ? (
-            <div className="bg-white p-4 rounded-xl inline-block mb-3">
-              <img src={settings.upiQrImage} alt="UPI QR" className="w-48 h-48 mx-auto" />
-            </div>
-          ) : (
-            <div className="w-48 h-48 bg-dark-200 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <QrCode className="w-16 h-16 text-gray-600" />
-            </div>
-          )}
-          {settings?.upiId && (
-            <p className="text-primary-400 font-mono">{settings.upiId}</p>
-          )}
-        </Card>
+    </div>
 
-        {/* Instructions */}
-        <Card className="bg-blue-500/10 border border-blue-500/30">
-          <div className="flex gap-3">
-            <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-blue-300">
-              <p className="font-medium mb-1">Instructions:</p>
-              <ol className="list-decimal list-inside space-y-1 text-blue-300/80">
-                <li>Scan the QR code or pay to UPI ID</li>
-                <li>Minimum deposit: {formatCurrency(settings?.minDeposit || 100)}</li>
-                <li>Enter your username in UPI remark</li>
-                <li>Fill the form below after payment</li>
-              </ol>
-            </div>
-          </div>
-        </Card>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit}>
-          <Input
-            label="Amount Paid (₹)"
-            type="number"
-            value={formData.amount}
-            onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-            placeholder={`Minimum ${formatCurrency(settings?.minDeposit || 100)}`}
-            required
-          />
-
-          <Input
-            label="Transaction ID / UTR Number"
-            value={formData.utr}
-            onChange={(e) => setFormData({ ...formData, utr: e.target.value })}
-            placeholder="Enter 12-digit UTR number"
-            required
-          />
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-300 mb-1.5">
-              Payment Screenshot <span className="text-red-500">*</span>
-            </label>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-
-            {formData.screenshot ? (
-              <div className="relative">
-                <img
-                  src={formData.screenshot}
-                  alt="Screenshot"
-                  className="w-full max-h-48 object-contain rounded-xl bg-dark-300"
-                />
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, screenshot: '' })}
-                  className="absolute top-2 right-2 p-2 bg-red-500 rounded-full"
-                >
-                  ×
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full py-8 border-2 border-dashed border-dark-200 rounded-xl flex flex-col items-center gap-2 hover:border-primary-500 transition-colors"
-              >
-                <Upload className="w-8 h-8 text-gray-500" />
-                <span className="text-gray-400">Upload Screenshot</span>
-              </button>
-            )}
-          </div>
-
-          <Button type="submit" fullWidth size="lg" loading={submitting}>
-            Submit Deposit Request
-          </Button>
-        </form>
-      </div>
-    </Layout>
-  );
+  </Layout>
+);
+  
+    
 }
