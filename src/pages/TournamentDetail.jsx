@@ -792,7 +792,7 @@ const teamSize = tournament.results.third.teamMembers.length
 const basePrize = Math.floor(tournament.results.third.prizePerMember || 0);
 const playerData = tournament.participantDetails?.find(p => p.odeuGameId === player.gameId );
 const kills = playerData?.kills || 0;
-const total =.Math.floor(basePrize + (kills * (tournament.perKillPrize || 0)));
+const total = Math.floor(basePrize + (kills * (tournament.perKillPrize || 0)));
 
 return(
 
