@@ -135,7 +135,7 @@ const handlePayNow = async () => {
 
   } catch (error) {
     console.log(error);
-    alert("Something went wrong");
+    alert(JSON.stringify(data));
   }
 };
 
