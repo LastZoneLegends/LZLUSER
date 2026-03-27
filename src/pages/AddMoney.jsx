@@ -130,7 +130,7 @@ const handlePayNow = async () => {
     if (data.payment_url) {
       window.location.href = data.payment_url;
     } else {
-      alert("Payment start failed");
+  alert(JSON.stringify(data));
     }
 
   } catch (error) {
