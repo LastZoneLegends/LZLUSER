@@ -10,6 +10,7 @@ import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import Loader from '../components/common/Loader';
+import { createPaymentOrder } from "../services/paymentService";
 import { formatCurrency } from '../utils/formatters';
 
 export default function AddMoney() {
@@ -104,38 +105,35 @@ export default function AddMoney() {
     }
   };
 
-const handlePayNow = async () => {
+const handleTranzupiPayment = async () => {
   try {
+
     if (!formData.amount) {
       alert("Enter amount first");
       return;
     }
 
-    const response = await fetch(
-      "https://neoupi-webhook-server.onrender.com/create-order",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          amount: formData.amount,
-          userId: currentUser.uid
-        })
-      }
+    const data = await createPaymentOrder(
+      formData.amount,
+      currentUser.uid,
+      currentUser.mobile
     );
 
-    const data = await response.json();
-
     if (data.payment_url) {
+
       window.location.href = data.payment_url;
+
     } else {
-  alert(JSON.stringify(data));
+
+      alert("Payment start failed");
+
     }
 
   } catch (error) {
+
     console.log(error);
     alert("Something went wrong");
+
   }
 };
 
@@ -246,7 +244,7 @@ const handlePayNow = async () => {
 
       <button
         type="button"
-        onClick={handlePayNow}
+        onClick={handleTranzupiPayment}
         className="w-full bg-gradient-to-r 
         from-indigo-500 to-purple-600 py-3 
         rounded-xl font-semibold text-lg shadow-lg"
