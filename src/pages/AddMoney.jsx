@@ -114,10 +114,10 @@ const handleTranzupiPayment = async () => {
     }
 
     const data = await createPaymentOrder(
-      formData.amount,
-      currentUser.uid,
-      currentUser.mobile
-    );
+  formData.amount,
+  currentUser.email,
+  "9999999999"
+);
 
     if (data.payment_url) {
 
