@@ -262,7 +262,7 @@ const handleTranzupiPayment = async () => {
   {/* Title with circle icon */}
   <div className="flex items-center gap-3 mb-4">
 
-    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500/20">
+    <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/20">
       <Info className="text-blue-400" size={20} />
     </div>
 
