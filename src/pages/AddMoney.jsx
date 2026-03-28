@@ -247,7 +247,7 @@ const handleTranzupiPayment = async () => {
         onClick={handleTranzupiPayment}
         className="w-full bg-gradient-to-r 
         from-indigo-500 to-purple-600 py-3 
-        rounded-xl font-semibold text-lg shadow-lg"
+        rounded-xl font-semibold text-lg shadow-lg mb-5"
       >
 
         Pay Now
@@ -262,7 +262,7 @@ const handleTranzupiPayment = async () => {
   {/* Title with circle icon */}
   <div className="flex items-center gap-3 mb-4">
 
-    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-500/20">
+    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500/20">
       <Info className="text-blue-400" size={20} />
     </div>
 
@@ -310,7 +310,7 @@ const handleTranzupiPayment = async () => {
     <li className="flex items-start gap-3">
 
       <div className="icon-circle bg-green-500/20">
-        <CheckCircle2 className="text-green-400" size={18} />
+        <CheckCircle className="text-green-400" size={18} />
       </div>
 
       <span>
