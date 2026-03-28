@@ -115,14 +115,14 @@ const handleTranzupiPayment = async () => {
 
     const data = await createPaymentOrder(
   formData.amount,
-  currentUser.email,
-  "9999999999"
+  currentUser.uid,
+  "9876543210"
 );
 
-    if (data.payment_url) {
-
-      window.location.href = data.payment_url;
-
+    if (data.result?.payment_url) {
+      
+  window.location.href = data.result.payment_url;
+      
     } else {
 
       alert("Payment start failed");
