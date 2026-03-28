@@ -4,7 +4,7 @@ import { doc, getDoc, addDoc, collection, serverTimestamp } from 'firebase/fires
 import { db } from '../firebase/config';
 import { useAuth } from '../contexts/AuthContext';
 import { compressImage } from '../utils/imageUtils';
-import { ArrowLeft, QrCode, Upload, Info, CheckCircle } from 'lucide-react';
+import { Info, ShieldCheck, Smartphone, CheckCircle2, AlertTriangle, Headphones, ArrowLeft, CheckCircle } from 'lucide-react';
 import Layout from '../components/common/Layout';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
@@ -219,7 +219,7 @@ const handleTranzupiPayment = async () => {
 
       <div className="grid grid-cols-4 gap-3 mt-4 mb-5">
 
-        {[50, 100, 200, 500].map((amt) => (
+        {[20, 50, 100, 200].map((amt) => (
 
           <button
             key={amt}
@@ -257,43 +257,111 @@ const handleTranzupiPayment = async () => {
 
       {/* Instructions Card */}
 
-      <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 mt-6">
+      <div className="bg-[#0f1b2b] border border-blue-500/20 rounded-2xl p-5 shadow-lg">
 
-        <div className="flex gap-3">
+  {/* Title with circle icon */}
+  <div className="flex items-center gap-3 mb-4">
 
-          <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
+    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-500/20">
+      <Info className="text-blue-400" size={20} />
+    </div>
 
-          <div className="text-sm text-blue-300">
+    <h2 className="text-xl font-semibold text-white">
+      Instructions
+    </h2>
 
-            <p className="font-medium mb-1">
-              Instructions
-            </p>
+  </div>
 
-            <ol className="list-decimal list-inside space-y-1 text-blue-300/80">
 
-              <li>
-                Enter amount and tap Pay Now
-              </li>
+  {/* Trust badge */}
+  <p className="text-green-400 text-xs mb-4">
+    ✔ 100% Instant Wallet Credit after successful payment
+  </p>
 
-              <li>
-                Payment opens in GPay / PhonePe / Paytm
-              </li>
 
-              <li>
-                Use your username in remark (optional)
-              </li>
+  <ul className="space-y-4 text-gray-300 text-sm">
 
-              <li>
-                Wallet auto-update feature coming next 🚀
-              </li>
+    <li className="flex items-start gap-3">
 
-            </ol>
-
-          </div>
-
-        </div>
-
+      <div className="icon-circle bg-green-500/20">
+        <ShieldCheck className="text-green-400" size={18} />
       </div>
+
+      <span>
+        Enter the amount you want to add to your wallet.
+      </span>
+
+    </li>
+
+
+    <li className="flex items-start gap-3">
+
+      <div className="icon-circle bg-green-500/20">
+        <Smartphone className="text-green-400" size={18} />
+      </div>
+
+      <span>
+        Click <b className="text-white">Pay Now</b> to open secure payment page.
+      </span>
+
+    </li>
+
+
+    <li className="flex items-start gap-3">
+
+      <div className="icon-circle bg-green-500/20">
+        <CheckCircle2 className="text-green-400" size={18} />
+      </div>
+
+      <span>
+        Complete payment using any UPI app (PhonePe, GPay, Paytm, etc).
+      </span>
+
+    </li>
+
+
+    <li className="flex items-start gap-3">
+
+      <div className="icon-circle bg-green-500/20">
+        <CheckCircle2 className="text-green-400" size={18} />
+      </div>
+
+      <span>
+        Your wallet will be credited automatically after successful payment.
+      </span>
+
+    </li>
+
+
+    <li className="flex items-start gap-3">
+
+      <div className="icon-circle bg-yellow-500/20">
+        <AlertTriangle className="text-yellow-400" size={18} />
+      </div>
+
+      <span>
+        Do not refresh or close the page during payment.
+      </span>
+
+    </li>
+
+
+    <li className="flex items-start gap-3">
+
+      <div className="icon-circle bg-blue-500/20">
+        <Headphones className="text-blue-400" size={18} />
+      </div>
+
+      <span>
+        If payment is successful but balance not updated within 1 minute,
+        contact support with Screenshot.
+      </span>
+
+    </li>
+
+  </ul>
+
+</div>
 
     </div>
 
