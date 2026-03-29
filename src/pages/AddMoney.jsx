@@ -316,9 +316,9 @@ if (Number(formData.amount) < minimumAmount) {
 
     <li className="flex items-start gap-3">
 
-      <div className="icon-circle bg-green-500/20">
+      
         <ShieldCheck className="text-green-400" size={18} />
-      </div>
+      
 
       <span>
         Enter the amount you want to add to your wallet.
@@ -329,9 +329,9 @@ if (Number(formData.amount) < minimumAmount) {
 
     <li className="flex items-start gap-3">
 
-      <div className="icon-circle bg-green-500/20">
+      
         <Smartphone className="text-green-400" size={18} />
-      </div>
+      
 
       <span>
         Click <b className="text-white">Pay Now</b> to open secure payment page.
@@ -342,9 +342,9 @@ if (Number(formData.amount) < minimumAmount) {
 
     <li className="flex items-start gap-3">
 
-      <div className="icon-circle bg-green-500/20">
+      
         <CheckCircle className="text-green-400" size={18} />
-      </div>
+      
 
       <span>
         Complete payment using any UPI app (PhonePe, GPay, Paytm, etc).
@@ -355,9 +355,9 @@ if (Number(formData.amount) < minimumAmount) {
 
     <li className="flex items-start gap-3">
 
-      <div className="icon-circle bg-green-500/20">
+      
         <CheckCircle2 className="text-green-400" size={18} />
-      </div>
+      
 
       <span>
         Your wallet will be credited automatically after successful payment.
@@ -368,9 +368,9 @@ if (Number(formData.amount) < minimumAmount) {
 
     <li className="flex items-start gap-3">
 
-      <div className="icon-circle bg-yellow-500/20">
+      
         <AlertTriangle className="text-yellow-400" size={18} />
-      </div>
+      
 
       <span>
         Do not refresh or close the page during payment.
