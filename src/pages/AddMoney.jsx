@@ -433,7 +433,7 @@ if (Number(formData.amount) < minimumAmount) {
       />
 
       {/* Subtext */}
-      <p className="text-gray-300 text-[12px]">
+      <p className="text-gray-270 text-[13px]">
         Please Wait to Redirect
       </p>
 
