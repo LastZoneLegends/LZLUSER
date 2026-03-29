@@ -422,15 +422,16 @@ if (Number(formData.amount) < minimumAmount) {
   <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
 
     {/* Popup Card */}
-    <div className="bg-dark-400/95 backdrop-blur-md border border-gray-700 px-6 py-6 
+    <div className="bg-dark-400/95 backdrop-blur-md border border-gray-700 px-5 py-3 
       rounded-2xl shadow-2xl flex flex-col items-center gap-2 animate-fade-in">
       
       {/* Spinner */}
       <Loader
-  text="Redirecting to secure payment page..."
-  animateText={false}
-  textColor="text-white"
-/>
+        size="sm"
+        text="Redirecting to secure payment page..."
+        animateText={false}
+        textColor="text-white"
+      />
 
       {/* Heading */}
       {/*<p className="text-white font-semibold text-sm">
@@ -438,7 +439,7 @@ if (Number(formData.amount) < minimumAmount) {
       </p>*/}
 
       {/* Subtext */}
-      <p className="text-gray-400 text-xs">
+      <p className="text-gray-400 text-[11px]">
         Please wait while gateway loads
       </p>
 
