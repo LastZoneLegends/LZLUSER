@@ -419,18 +419,23 @@ if (Number(formData.amount) < minimumAmount) {
     }
 
     {redirecting && (
-  <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+  <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
 
     {/* Popup Card */}
-    <div className="pointer-events-auto bg-dark-400/95 backdrop-blur-md border border-gray-700 px-6 py-5 rounded-2xl shadow-2xl flex flex-col items-center gap-3 animate-fade-in">
-
+    <div className="bg-dark-400/95 backdrop-blur-md border border-gray-700 px-6 py-6 
+      rounded-2xl shadow-2xl flex flex-col items-center gap-2 animate-fade-in">
+      
       {/* Spinner */}
-      <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+      <Loader
+  text="Redirecting to secure payment page..."
+  animateText={false}
+  textColor="text-white"
+/>
 
       {/* Heading */}
-      <p className="text-white font-semibold text-sm">
-        Redirecting to secure payment...
-      </p>
+      {/*<p className="text-white font-semibold text-sm">
+        Redirecting to secure payment page...
+      </p>*/}
 
       {/* Subtext */}
       <p className="text-gray-400 text-xs">
