@@ -400,11 +400,14 @@ if (Number(formData.amount) < minimumAmount) {
 
     {
   errorMessage && (
-    <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
-    bg-gray-800 text-white px-5 py-2 rounded-full shadow-lg
-    text-sm flex items-center gap-2 animate-fade-in">
+    <div className="fixed bottom-24 inset-x-0 flex justify-center z-50">
 
-      ⚠️ {errorMessage}
+      <div className="bg-gray-800 text-white px-5 py-2 rounded-full shadow-lg
+      text-sm flex items-center gap-2 animate-fade-in">
+
+        ⚠️ {errorMessage}
+
+      </div>
 
     </div>
   )
