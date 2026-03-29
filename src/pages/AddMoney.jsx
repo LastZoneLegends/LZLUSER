@@ -45,23 +45,6 @@ export default function AddMoney() {
       setLoading(false);
     }
   };
-  
-  
-        setMinDeposit(settingsSnap.data().minDeposit);
-
-      }
-
-    } catch (error) {
-
-      console.log("Error fetching minDeposit:", error);
-
-    }
-
-  };
-
-  fetchMinDeposit();
-
-}, []);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
