@@ -113,15 +113,18 @@ const handleTranzupiPayment = async () => {
 
     // amount empty check
     if (!formData.amount) {
-      alert("Enter amount first");
-      return;
-    }
+  alert("Enter amount first");
+  return;
+}
 
-    // minimum deposit validation
-    if (Number(formData.amount) < minDeposit) {
-      alert(`Minimum amount should be ₹${minDeposit}`);
-      return;
-    }
+   // minimum deposit validation 
+
+const minimumAmount = settings?.minDeposit || minDeposit;
+
+if (Number(formData.amount) < minimumAmount) {
+  alert(`Minimum amount should be ₹${minimumAmount}`);
+  return;
+}
 
     // create order request
     const data = await createPaymentOrder(
@@ -221,7 +224,7 @@ const handleTranzupiPayment = async () => {
               amount: e.target.value
             })
           }
-          placeholder={`Minimum ₹${settings?.minDeposit || 20}`}
+          placeholder={`Minimum ₹${settings?.minDeposit || minDeposit}`}
           className="w-full bg-dark-300 border border-dark-200 rounded-xl px-4 py-3 text-lg text-white"
         />
 
