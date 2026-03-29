@@ -8,7 +8,7 @@ export default function Loader({ size = 'md', text = "Loading...", animateText =
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-5">
+    <div className="flex flex-col items-center justify-center py-3">
       <div className="relative">
           {/* Spinner */}
         <div
