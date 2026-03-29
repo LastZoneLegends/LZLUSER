@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Loader({ size = 'md', text = '' }) {
+export default function Loader({ size = 'md', text = "Loading...", animateText = true, textColor = "text-gray-400" }) {
   const sizeClasses = {
     sm: 'w-6 h-6',
     md: 'w-12 h-12',
@@ -10,6 +10,7 @@ export default function Loader({ size = 'md', text = '' }) {
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <div className="relative">
+          {/* Spinner */}
         <div
           className={`${sizeClasses[size]} rounded-full border-4 border-transparent animate-spin`}
           style={{
@@ -32,7 +33,13 @@ export default function Loader({ size = 'md', text = '' }) {
         />
       </div>
       {text && (
-        <p className="mt-4 text-gray-400 text-sm animate-pulse">{text}</p>
+        <p
+  className={`mt-4 ${textColor} text-sm ${
+    animateText ? "animate-pulse" : ""
+  }`}
+>
+  {text}
+</p>
       )}
     </div>
   );
