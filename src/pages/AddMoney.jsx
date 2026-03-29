@@ -427,7 +427,6 @@ if (Number(formData.amount) < minimumAmount) {
       
       {/* Spinner */}
       <Loader
-        size="sm"
         text="Redirecting to secure payment page..."
         animateText={false}
         textColor="text-white"
