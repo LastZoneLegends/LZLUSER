@@ -381,9 +381,9 @@ if (Number(formData.amount) < minimumAmount) {
 
     <li className="flex items-start gap-3">
 
-      <div className="icon-circle bg-blue-500/20">
+      
         <Headphones className="text-blue-400" size={18} />
-      </div>
+    
 
       <span>
         If payment is successful but balance not updated within 1 minute,
