@@ -432,14 +432,9 @@ if (Number(formData.amount) < minimumAmount) {
         textColor="text-white"
       />
 
-      {/* Heading */}
-      {/*<p className="text-white font-semibold text-sm">
-        Redirecting to secure payment page...
-      </p>*/}
-
       {/* Subtext */}
-      <p className="text-gray-400 text-[11px]">
-        Please wait while gateway loads
+      <p className="text-gray-300 text-[12px]">
+        Please Wait to Redirect
       </p>
 
     </div>
