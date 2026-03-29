@@ -20,6 +20,7 @@ export default function AddMoney() {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [minDeposit, setMinDeposit] = useState(10);
   const [errorMessage, setErrorMessage] = useState("");
@@ -143,6 +144,8 @@ if (Number(formData.amount) < minimumAmount) {
   return;
 }
 
+    setRedirecting(true);   // ⭐ popup loader show here
+
     // create order request
     const data = await createPaymentOrder(
       formData.amount,
@@ -152,6 +155,8 @@ if (Number(formData.amount) < minimumAmount) {
 
     // redirect to payment page
     if (data.result?.payment_url) {
+
+      setRedirecting(false);   // ⭐ popup hide before redirect
 
       window.location.href = data.result.payment_url;
 
@@ -412,6 +417,30 @@ if (Number(formData.amount) < minimumAmount) {
     </div>
   )
     }
+
+    {redirecting && (
+  <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+
+    {/* Popup Card */}
+    <div className="pointer-events-auto bg-dark-400/95 backdrop-blur-md border border-gray-700 px-6 py-5 rounded-2xl shadow-2xl flex flex-col items-center gap-3 animate-fade-in">
+
+      {/* Spinner */}
+      <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+
+      {/* Heading */}
+      <p className="text-white font-semibold text-sm">
+        Redirecting to secure payment...
+      </p>
+
+      {/* Subtext */}
+      <p className="text-gray-400 text-xs">
+        Please wait while gateway loads
+      </p>
+
+    </div>
+
+  </div>
+)}
 
   </Layout>
 );
