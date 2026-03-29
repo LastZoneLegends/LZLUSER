@@ -22,6 +22,7 @@ export default function AddMoney() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [minDeposit, setMinDeposit] = useState(10);
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     amount: '',
     utr: '',
@@ -45,6 +46,22 @@ export default function AddMoney() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+
+  if (errorMessage) {
+
+    const timer = setTimeout(() => {
+
+      setErrorMessage("");
+
+    }, 3000);
+
+    return () => clearTimeout(timer);
+
+  }
+
+}, [errorMessage]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -113,7 +130,7 @@ const handleTranzupiPayment = async () => {
 
     // amount empty check
     if (!formData.amount) {
-  alert("Enter amount first");
+  setErrorMessage("Enter amount first");
   return;
 }
 
@@ -122,7 +139,7 @@ const handleTranzupiPayment = async () => {
 const minimumAmount = settings?.minDeposit || minDeposit;
 
 if (Number(formData.amount) < minimumAmount) {
-  alert(`Minimum amount should be ₹${minimumAmount}`);
+  setErrorMessage(`Minimum amount should be ₹${minimumAmount}`);
   return;
 }
 
@@ -380,6 +397,18 @@ if (Number(formData.amount) < minimumAmount) {
 </div>
 
     </div>
+
+    {
+  errorMessage && (
+    <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
+    bg-gray-800 text-white px-5 py-2 rounded-full shadow-lg
+    text-sm flex items-center gap-2 animate-fade-in">
+
+      ⚠️ {errorMessage}
+
+    </div>
+  )
+    }
 
   </Layout>
 );
