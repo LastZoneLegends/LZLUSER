@@ -21,6 +21,7 @@ export default function AddMoney() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [minDeposit, setMinDeposit] = useState(10);
   const [formData, setFormData] = useState({
     amount: '',
     utr: '',
@@ -36,6 +37,7 @@ export default function AddMoney() {
       const docSnap = await getDoc(doc(db, 'app_settings', 'main'));
       if (docSnap.exists()) {
         setSettings(docSnap.data());
+        setMinDeposit(data.minDeposit); // ⭐ important
       }
     } catch (error) {
       console.error('Error fetching settings:', error);
@@ -43,6 +45,23 @@ export default function AddMoney() {
       setLoading(false);
     }
   };
+  
+  
+        setMinDeposit(settingsSnap.data().minDeposit);
+
+      }
+
+    } catch (error) {
+
+      console.log("Error fetching minDeposit:", error);
+
+    }
+
+  };
+
+  fetchMinDeposit();
+
+}, []);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -106,23 +125,33 @@ export default function AddMoney() {
   };
 
 const handleTranzupiPayment = async () => {
+
   try {
 
+    // amount empty check
     if (!formData.amount) {
       alert("Enter amount first");
       return;
     }
 
-    const data = await createPaymentOrder(
-  formData.amount,
-  currentUser.uid,
-  "9876543210"
-);
+    // minimum deposit validation
+    if (Number(formData.amount) < minDeposit) {
+      alert(`Minimum amount should be ₹${minDeposit}`);
+      return;
+    }
 
+    // create order request
+    const data = await createPaymentOrder(
+      formData.amount,
+      currentUser.uid,
+      "9876543210"
+    );
+
+    // redirect to payment page
     if (data.result?.payment_url) {
-      
-  window.location.href = data.result.payment_url;
-      
+
+      window.location.href = data.result.payment_url;
+
     } else {
 
       alert("Payment start failed");
@@ -135,6 +164,7 @@ const handleTranzupiPayment = async () => {
     alert("Something went wrong");
 
   }
+
 };
 
   if (loading) {
