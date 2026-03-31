@@ -659,7 +659,7 @@ return(
 </div><p className="text-yellow-400 font-bold text-lg">
 ₹{
 tournament.matchType === "solo"
-? (tournament.results.first?.prizePerMember || 0) +
+? (tournament.prize1 || 0) +
 ((tournament.results.first?.kills || 0) *
 (tournament.perKillPrize || 0))
 : (tournament.results.first?.prizePerMember || 0) *
