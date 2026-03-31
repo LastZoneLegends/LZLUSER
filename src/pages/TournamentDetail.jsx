@@ -743,7 +743,7 @@ return(
 </div><p className="text-gray-200 font-bold text-lg">
 ₹{
 tournament.matchType === "solo"
-? (tournament.results.second?.prizePerMember || 0) +
+? (tournament.prize2 || 0) +
 ((tournament.results.second?.kills || 0) *
 (tournament.perKillPrize || 0))
 : (tournament.results.second?.prizePerMember || 0) *
@@ -823,7 +823,7 @@ return(
 </div><p className="text-orange-400 font-bold text-lg">
 ₹{
 tournament.matchType === "solo"
-? (tournament.results.third?.prizePerMember || 0) +
+? (tournament.prize3 || 0) +
 ((tournament.results.third?.kills || 0) *
 (tournament.perKillPrize || 0))
 : (tournament.results.third?.prizePerMember || 0) *
