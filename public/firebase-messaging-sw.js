@@ -24,34 +24,9 @@ messaging.onBackgroundMessage((payload) => {
   // Customize notification here
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
-  body: payload.notification.body,
-  icon: '/icons/icon-192x192.png',
-  data: payload.data
-};
-};
+    body: payload.notification.body,
+    icon: '/icons/icon-192x192.png'
+  };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
-  self.addEventListener('notificationclick', function (event) {
-  event.notification.close();
-
-  const urlToOpen = event.notification?.data?.url || '/';
-
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(function (clientList) {
-
-        for (let i = 0; i < clientList.length; i++) {
-          const client = clientList[i];
-
-          if (client.url.includes(urlToOpen) && 'focus' in client) {
-            return client.focus();
-          }
-        }
-
-        if (clients.openWindow) {
-          return clients.openWindow(urlToOpen);
-        }
-      })
-  );
-});
 });
