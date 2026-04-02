@@ -26,31 +26,30 @@ messaging.onBackgroundMessage((payload) => {
   const notificationOptions = {
   body: payload.notification.body,
   icon: '/icons/icon-192x192.png',
-  data: {
-    url: payload.data?.url || "https://lastzonelegends.com"
-  }
+  data: payload.data
+};
 };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
-  self.addEventListener("notificationclick", function (event) {
+  self.addEventListener('notificationclick', function (event) {
   event.notification.close();
 
-  const targetUrl =
-    event.notification?.data?.url ||
-    "https://lastzonelegends.com";
+  const urlToOpen = event.notification?.data?.url || '/';
 
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true })
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then(function (clientList) {
+
         for (let i = 0; i < clientList.length; i++) {
           const client = clientList[i];
-          if (client.url === targetUrl && "focus" in client) {
+
+          if (client.url.includes(urlToOpen) && 'focus' in client) {
             return client.focus();
           }
         }
 
         if (clients.openWindow) {
-          return clients.openWindow(targetUrl);
+          return clients.openWindow(urlToOpen);
         }
       })
   );
