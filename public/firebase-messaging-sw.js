@@ -35,6 +35,7 @@ messaging.onBackgroundMessage((payload) => {
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+  });
   self.addEventListener("notificationclick", function (event) {
   event.notification.close();
 
@@ -65,5 +66,4 @@ messaging.onBackgroundMessage((payload) => {
       }
     })
   );
-});
 });
