@@ -222,9 +222,31 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                  <span className="text-sm font-medium text-gray-200 text-center truncate w-full group-hover:text-white transition-colors">
-                    {game.name}
-                  </span>
+                  <span
+className="
+text-[11px]
+font-medium
+tracking-wide
+text-white
+px-3 py-[5px]
+rounded-full
+bg-gradient-to-r
+from-blue-500/80
+via-indigo-500/80
+to-blue-500/80
+border border-white/15
+shadow-lg shadow-purple-500/30
+backdrop-blur-lg
+transition-all duration-300
+group-hover:purple-400/60
+group-hover:scale-105
+group-hover:brightness-110
+"
+
+> 
+
+{game.name}
+</span>
                 </div>
               </Link>
             ))}
