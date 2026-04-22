@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Tabs({ tabs, activeTab, onChange, variant className = '' }) {
+export default function Tabs({ tabs, activeTab, onChange, variant, className = '' }) {
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {tabs.map((tab) => (
