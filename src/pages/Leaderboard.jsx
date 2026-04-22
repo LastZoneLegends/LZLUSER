@@ -76,7 +76,11 @@ export default function Leaderboard() {
       </div>
 
       <div className="px-4 py-4">
-        <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} className="mb-4" />
+        <Tabs
+tabs={tabs}
+activeTab={activeTab}
+onChange={setActiveTab}
+variant="leaderboard" className="mb-4" />
 
         {players.length === 0 ? (
           <EmptyState
