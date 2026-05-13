@@ -307,7 +307,7 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
         description: `Entry fee for ${tournament.name} - Positions: ${slotsInfo}`,
         status: 'completed',
         tournamentId: id,
-        positions: selectedPositions,
+        positions: selectedPositions, participants,
         createdAt: serverTimestamp()
       });
 
