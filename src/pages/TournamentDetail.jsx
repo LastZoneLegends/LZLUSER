@@ -311,6 +311,44 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
         createdAt: serverTimestamp()
       });
 
+      // Referral reward logic
+if (userData.referredBy && !userData.referralRewardGiven) {
+  const referrerQuery = query(
+    collection(db, "users"),
+    where("referralCode", "==", userData.referredBy)
+  );
+
+  const referrerSnap = await getDocs(referrerQuery);
+
+  if (!referrerSnap.empty) {
+    const referrerDoc = referrerSnap.docs[0];
+    const referrerData = referrerDoc.data();
+
+    // Add bonus to referrer
+    await updateDoc(doc(db, "users", referrerDoc.id), {
+      bonusBalance: increment(Number(settings?.referralBonus || 0)),
+      walletBalance: increment(Number(settings?.referralBonus || 0)),
+      usersReferred: increment(1)
+    });
+
+    // Mark reward given
+    await updateDoc(doc(db, "users", currentUser.uid), {
+      referralRewardGiven: true
+    });
+
+    // Create transaction
+    await addDoc(collection(db, "transactions"), {
+      userId: referrerDoc.id,
+      type: "referral_bonus",
+      title: "Referral Bonus",
+      amount: Number(settings?.referralBonus || 0)
+      status: "completed",
+      description: `Referral bonus from ${userData.displayName}`,
+      createdAt: serverTimestamp()
+    });
+  }
+}
+
       await refreshUserData();
       await fetchTournament();
       setJoinModalOpen(false);
