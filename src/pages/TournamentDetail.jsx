@@ -326,9 +326,10 @@ if (userData.referredBy && !userData.referralRewardGiven) {
     const referrerData = referrerDoc.data();
 
     // Add bonus to referrer
+    const referralAmount = Number(settings?.referralBonus || 10);
     await updateDoc(doc(db, "users", referrerDoc.id), {
-      bonusBalance: increment(Number(settings?.referralBonus || 0)),
-      walletBalance: increment(Number(settings?.referralBonus || 0)),
+      bonusBalance: increment(referralAmount),
+      walletBalance: increment(referralAmount),
       usersReferred: increment(1)
     });
 
@@ -342,7 +343,7 @@ if (userData.referredBy && !userData.referralRewardGiven) {
       userId: referrerDoc.id,
       type: "referral_bonus",
       title: "Referral Bonus",
-      amount: Number(settings?.referralBonus || 0),
+      amount: referralAmount,
       status: "completed",
       description: `Referral bonus from ${userData.displayName}`,
       createdAt: serverTimestamp()
