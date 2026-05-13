@@ -341,7 +341,7 @@ if (userData.referredBy && !userData.referralRewardGiven) {
       userId: referrerDoc.id,
       type: "referral_bonus",
       title: "Referral Bonus",
-      amount: Number(settings?.referralBonus || 0)
+      amount: Number(settings?.referralBonus || 0),
       status: "completed",
       description: `Referral bonus from ${userData.displayName}`,
       createdAt: serverTimestamp()
