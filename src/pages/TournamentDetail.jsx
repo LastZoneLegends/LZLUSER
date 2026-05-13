@@ -32,7 +32,7 @@ export default function TournamentDetail() {
   const [playerGameIds, setPlayerGameIds] = useState({}); // { "slot-position": "gameId" }
 
   // Match type configurations
-  const matchTypeConfig = 
+  const matchTypeConfig = {
     solo: { size: 1, positions: ['A'] },
     duo: { size: 2, positions: ['A', 'B'] },
     squad: { size: 4, positions: ['A', 'B', 'C', 'D'] }
