@@ -234,13 +234,64 @@ export default function TournamentDetail() {
         });
       }
 
-      // Deduct from wallet
-      await updateDoc(doc(db, 'users', currentUser.uid), {
-        walletBalance: increment(-totalCost),
-        depositedBalance: increment(-totalCost),
-        matchesPlayed: increment(1)
-      });
+      // Smart wallet deduction
+let remainingAmount = totalCost;
 
+let depositedUsed = 0;
+let bonusUsed = 0;
+let winningUsed = 0;
+
+let depositedBalance = Number(userData.depositedBalance || 0);
+let bonusBalance = Number(userData.bonusBalance || 0);
+let winningBalance = Number(userData.winningBalance || 0);
+
+// 1. Use deposited balance first
+if (depositedBalance >= remainingAmount) {
+  depositedUsed = remainingAmount;
+  depositedBalance -= remainingAmount;
+  remainingAmount = 0;
+} else {
+  depositedUsed = depositedBalance;
+  remainingAmount -= depositedBalance;
+  depositedBalance = 0;
+}
+
+// 2. Use bonus balance
+if (remainingAmount > 0) {
+  if (bonusBalance >= remainingAmount) {
+    bonusUsed = remainingAmount;
+    bonusBalance -= remainingAmount;
+    remainingAmount = 0;
+  } else {
+    bonusUsed = bonusBalance;
+    remainingAmount -= bonusBalance;
+    bonusBalance = 0;
+  }
+}
+
+// 3. Use winning balance
+if (remainingAmount > 0) {
+  if (winningBalance >= remainingAmount) {
+    winningUsed = remainingAmount;
+    winningBalance -= remainingAmount;
+    remainingAmount = 0;
+  } else {
+    winningUsed = winningBalance;
+    remainingAmount -= winningBalance;
+    winningBalance = 0;
+  }
+}
+
+// Update wallet
+await updateDoc(doc(db, 'users', currentUser.uid), {
+  depositedBalance,
+  bonusBalance,
+  winningBalance,
+  walletBalance:
+    depositedBalance + bonusBalance + winningBalance,
+  matchesPlayed: increment(1)
+});
+      
       // Create transaction
       const slotsInfo = selectedPositions.map(sp => `${sp.slot}${sp.position}`).join(', ');
       await addDoc(collection(db, 'transactions'), {
@@ -249,6 +300,10 @@ export default function TournamentDetail() {
         userEmail: userData.email,
         type: 'entry_fee',
         amount: totalCost,
+       depositedUsed,
+       bonusUsed,
+       winningUsed,
+        
         description: `Entry fee for ${tournament.name} - Positions: ${slotsInfo}`,
         status: 'completed',
         tournamentId: id,
