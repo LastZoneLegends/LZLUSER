@@ -19,6 +19,7 @@ export default function TournamentDetail() {
   const [tournament, setTournament] = useState(null);
   const [loading, setLoading] = useState(true);
   const [joining, setJoining] = useState(false);
+  const [settings, setSettings] = useState({});
   const [joinModalOpen, setJoinModalOpen] = useState(false);
   const [showRoomDetails, setShowRoomDetails] = useState(false);
   const [copied, setCopied] = useState({ roomId: false, password: false });
