@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { ArrowLeft, Trophy, Medal, Crown } from 'lucide-react';
 import Layout from '../components/common/Layout';
@@ -17,21 +17,65 @@ export default function Leaderboard() {
   const [activeTab, setActiveTab] = useState('all');
 
   useEffect(() => {
-    fetchLeaderboard();
-  }, []);
+  fetchLeaderboard();
+}, [activeTab]);
 
   const fetchLeaderboard = async () => {
-    try {
-      const snapshot = await getDocs(
-        query(collection(db, 'users'), orderBy('totalWinnings', 'desc'), limit(100))
-      );
-      setPlayers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    } catch (error) {
-      console.error('Error fetching leaderboard:', error);
-    } finally {
-      setLoading(false);
+  try {
+    setLoading(true);
+
+    const now = new Date();
+    let startDate = null;
+
+    // Weekly = last 7 days
+    if (activeTab === 'weekly') {
+      startDate = new Date();
+      startDate.setDate(now.getDate() - 7);
     }
-  };
+
+    // Monthly = current month start
+    if (activeTab === 'monthly') {
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    }
+
+    let q;
+
+    // All Time
+    if (activeTab === 'all') {
+      q = query(
+        collection(db, 'users'),
+        orderBy('totalWinnings', 'desc'),
+        limit(100)
+      );
+    } else {
+      q = query(
+        collection(db, 'users'),
+        where('lastMatchAt', '>=', startDate),
+        orderBy('lastMatchAt', 'desc'),
+        limit(100)
+      );
+    }
+
+    const snapshot = await getDocs(q);
+
+    let data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    // Sort by winnings
+    data.sort((a, b) =>
+      (b.totalWinnings || 0) - (a.totalWinnings || 0)
+    );
+
+    setPlayers(data);
+
+  } catch (error) {
+    console.error('Error fetching leaderboard:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const tabs = [
     { value: 'all', label: 'All Time' },
