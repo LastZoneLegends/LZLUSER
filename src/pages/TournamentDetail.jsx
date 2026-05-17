@@ -1149,7 +1149,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
             </div>
 
             {/* Slots */}
-            <div className="max-h-64 overflow-y-auto">
+            <div className="max-h-[75vh] overflow-y-scroll pr-1">
               {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
                 const occupied = slotOccupancy[slotNum] || {};
                 const isFullSlot = Object.keys(occupied).length === teamSize;
