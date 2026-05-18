@@ -1122,6 +1122,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         onClose={() => setJoinModalOpen(false)}
         title="Select Your Positions"
         size="lg"
+        className="fixed inset-0 w-screen h-screen max-w-none rounded-none m-0"
       >
         <div className="py-2">
           {/* Info */}
