@@ -1243,7 +1243,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           <Button
             fullWidth
             size="lg"
-            className="mt-4 sticky bottom-0 z-20 bg-dark-400 pt-3 pb-2"
+            className="mt-3"
             onClick={goToStep2}
             disabled={selectedPositions.length === 0}
           >
