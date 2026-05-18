@@ -1139,7 +1139,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           <div className="bg-dark-400 rounded-lg overflow-hidden">
             {/* Header */}
             <div className="grid gap-2 p-3 bg-dark-300 text-sm font-medium" style={{ gridTemplateColumns: `60px repeat(${teamSize}, 1fr)` }}>
-              <div className="text-gray-400">Slot</div>
+              <div className="text-gray-400 text-center">Slot</div>
               {positions.map(pos => (
                 <div key={pos} className={`text-center font-bold ${pos === 'A' ? 'text-yellow-400' :
                   pos === 'B' ? 'text-blue-400' :
@@ -1149,7 +1149,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
             </div>
 
             {/* Slots */}
-            <div className="flex-1 overflow-y-auto pr-1">
+            <div className="flex-1 overflow-y-auto pr-1 pb-28">
               <div className={teamSize === 1 ? "grid grid-cols-3 gap-2" : ""}>
               {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
                 const occupied = slotOccupancy[slotNum] || {};
@@ -1164,14 +1164,14 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                     <div
   className={`${
     teamSize === 1
-      ? "bg-dark-300 border border-dark-200 rounded-xl p-3 flex items-center justify-between"
+      ? "bg-dark-300 border border-dark-200 rounded-xl p-3 flex items-center justify-between h-[78px]"
       : `font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`
   }`}
 >
   {teamSize === 1 ? (
     <>
       <div>
-        <div className="text-xs text-yellow-400 font-bold mb-1">A</div>
+        <div className="text-lg font-bold text-white">{slotNum}</div>
         <div className={`text-lg font-bold ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
           {slotNum}
         </div>
@@ -1243,7 +1243,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           <Button
             fullWidth
             size="lg"
-            className="mt-4"
+            className="mt-4 sticky bottom-0 z-20"
             onClick={goToStep2}
             disabled={selectedPositions.length === 0}
           >
