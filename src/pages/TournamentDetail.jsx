@@ -1160,9 +1160,26 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                      className={`${teamSize === 1? "grid grid-cols-3 gap-2 p-2": "grid gap-2 p-3 border-b border-dark-300"} ${isFullSlot ? 'bg-red-500/5' : ''}`}
                     style={{gridTemplateColumns:teamSize === 1 ? "repeat(3, 1fr)" : `60px repeat(${teamSize}, 1fr)`}}
     >
-                    <div className={`font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
-                      {slotNum}
-                    </div>
+                    <div
+  className={`${
+    teamSize === 1
+      ? "bg-dark-300 border border-dark-200 rounded-xl p-3 flex items-center justify-between"
+      : `font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`
+  }`}
+>
+  {teamSize === 1 ? (
+    <>
+      <div>
+        <div className="text-xs text-yellow-400 font-bold mb-1">A</div>
+        <div className={`text-lg font-bold ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
+          {slotNum}
+        </div>
+      </div>
+    </>
+  ) : (
+    slotNum
+  )}
+</div>
                     {positions.map(pos => {
                       const player = occupied[pos];
                       const isSelected = isPositionSelected(slotNum, pos);
