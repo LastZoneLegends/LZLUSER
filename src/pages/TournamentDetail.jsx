@@ -1149,7 +1149,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
             </div>
 
             {/* Slots */}
-            <div className="flex-1 overflow-y-auto pr-1 pb-28">
+            <div className="flex-1 overflow-y-auto pr-1 pb-40">
               <div className={teamSize === 1 ? "grid grid-cols-3 gap-2" : ""}>
               {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
                 const occupied = slotOccupancy[slotNum] || {};
@@ -1164,7 +1164,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                     <div
   className={`${
     teamSize === 1
-      ? "bg-dark-300 border border-dark-200 rounded-xl p-3 flex items-center justify-between h-[78px]"
+      ? "bg-dark-300 border border-dark-200 rounded-xl p-3 flex items-center justify-between h-[72px]"
       : `font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`
   }`}
 >
@@ -1243,7 +1243,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           <Button
             fullWidth
             size="lg"
-            className="mt-4 sticky bottom-0 z-20"
+            className="mt-4 sticky bottom-0 z-20 bg-dark-400 pt-3 pb-2"
             onClick={goToStep2}
             disabled={selectedPositions.length === 0}
           >
