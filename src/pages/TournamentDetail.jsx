@@ -1156,15 +1156,10 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
 
                 return (
                   <div
-                    key={slotNum}
-                    className={`grid gap-2 p-3 border-b border-dark-300 ${isFullSlot ? 'bg-red-500/5' : ''}`}
-                    style={{
-  gridTemplateColumns:
-    teamSize === 1
-      ? "repeat(3, 1fr)"
-      : `60px repeat(${teamSize}, 1fr)`
-}}
-                  >
+                     key={slotNum}
+                     className={`${teamSize === 1? "grid grid-cols-3 gap-2 p-2": "grid gap-2 p-3 border-b border-dark-300"} ${isFullSlot ? 'bg-red-500/5' : ''}`}
+                    style={{gridTemplateColumns:teamSize === 1 ? "repeat(3, 1fr)" : `60px repeat(${teamSize}, 1fr)`}}
+    >
                     <div className={`font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
                       {slotNum}
                     </div>
