@@ -1121,9 +1121,9 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         isOpen={joinModalOpen && joinStep === 1}
         onClose={() => setJoinModalOpen(false)}
         title="Select Your Positions"
-        className="w-screen h-screen max-w-none rounded-none"
+        className="fixed inset-0 w-screen h-screen max-w-none rounded-none m-0"
       >
-        <div className="py-2 h-[90vh] flex flex-col">
+        <div className="py-2 h-screen flex flex-col">
           {/* Info */}
           <div className="mb-4 p-3 bg-primary-500/10 rounded-lg">
             <p className="text-sm text-primary-400">
@@ -1149,7 +1149,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
             </div>
 
             {/* Slots */}
-            <div className="max-h-[620px] overflow-y-auto pr-1">
+            <div className="flex-1 overflow-y-auto pr-1">
               <div className={teamSize === 1 ? "grid grid-cols-3 gap-2" : ""}>
               {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
                 const occupied = slotOccupancy[slotNum] || {};
