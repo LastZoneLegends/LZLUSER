@@ -1171,7 +1171,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
   {teamSize === 1 ? (
     <>
       <div>
-        <div className="text-lg font-bold text-white">{slotNum}</div>
+        
         <div className={`text-lg font-bold ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
           {slotNum}
         </div>
