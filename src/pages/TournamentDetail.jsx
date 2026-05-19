@@ -1174,41 +1174,42 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         : { gridTemplateColumns: `60px repeat(${teamSize}, 1fr)` }
     }
   >
-                    <div className={`font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
-                      {slotNum}
-                    </div>
-                    {positions.map(pos => {
-                      const player = occupied[pos];
-                      const isSelected = isPositionSelected(slotNum, pos);
+              <div className="flex items-center justify-center h-14 rounded-xl bg-dark-300 text-white font-semibold text-lg">
+      {slotNum}
+    </div>
 
-                      if (player) {
-                        // Position is booked
-                        return (
-                          <div key={pos} className="flex justify-center">
-                            <div className="w-7 h-7 bg-red-500/30 rounded flex items-center justify-center" title={`Booked: ${player.odeuGameId}`}>
-                              <User className="w-4 h-4 text-red-400" />
-                            </div>
-                          </div>
-                        );
-                      } else {
-                        // Position is available - make it clickable
-                        return (
-                          <div key={pos} className="flex justify-center">
-                            <button
-                              onClick={() => togglePositionSelection(slotNum, pos)}
-                              className={`w-7 h-7 border-2 rounded flex items-center justify-center transition-all ${isSelected
-                                ? 'border-green-500 bg-green-500/30'
-                                : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/10'
-                                }`}
-                            >
-                              {isSelected && <Check className="w-4 h-4 text-green-400" />}
-                            </button>
-                          </div>
-                        );
-                      }
-                    })}
-                  </div>
-                );
+    {positions.map(pos => {
+      const player = occupied[pos];
+      const isSelected = isPositionSelected(slotNum, pos);
+
+      if (player) {
+        return (
+          <div
+            key={pos}
+            className="flex items-center justify-center h-14 rounded-xl bg-red-500/20"
+          >
+            <User className="w-5 h-5 text-red-400" />
+          </div>
+        );
+      } else {
+
+      return (
+        <button
+          key={pos}
+          onClick={() => togglePositionSelection(slotNum, pos)}
+          className={`h-14 rounded-xl border-2 flex items-center justify-center transition-all ${
+            isSelected
+              ? 'border-green-500 bg-green-500/20'
+              : 'border-gray-600 hover:border-primary-500'
+          }`}
+        >
+          {isSelected && <Check className="w-5 h-5 text-green-400" />}
+        </button>
+      );
+    })}
+  </>
+);
+                          
               })}
             </div>
           </div>
