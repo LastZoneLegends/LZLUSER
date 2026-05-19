@@ -1207,7 +1207,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         </button>
       );
     })}
-  </>
+  </div>
 );
                           
               })}
