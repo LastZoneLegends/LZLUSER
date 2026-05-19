@@ -1155,7 +1155,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                 const occupied = slotOccupancy[slotNum] || {};
                 const isFullSlot = Object.keys(occupied).length === teamSize;
 
-                return (
+              
                   return (
   <div
     key={slotNum}
