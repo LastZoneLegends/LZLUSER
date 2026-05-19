@@ -1206,6 +1206,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           {isSelected && <Check className="w-5 h-5 text-green-400" />}
         </button>
       );
+      }
     })}
   </div>
 );
