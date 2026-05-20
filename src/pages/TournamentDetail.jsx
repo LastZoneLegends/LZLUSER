@@ -1117,6 +1117,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
       }
 
 
+
       {/* Join Modal - Step 1: Position Selection from Grid */}
 <Modal
   isOpen={joinModalOpen && joinStep === 1}
@@ -1150,9 +1151,27 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
       </p>
     </div>
 
-    {/* Header */}
+    {/* Grid */}
     <div className="bg-dark-400 rounded-lg overflow-hidden">
 
+      {/* SOLO HEADER */}
+      {matchType === "solo" && (
+        <div className="grid grid-cols-3 gap-2 p-3 bg-dark-300 text-sm font-medium">
+          <div className="text-center text-gray-400">
+            Slot
+          </div>
+
+          <div className="text-center text-yellow-400 font-bold">
+            Slot
+          </div>
+
+          <div className="text-center text-yellow-400 font-bold">
+            Slot
+          </div>
+        </div>
+      )}
+
+      {/* DUO/SQUAD HEADER */}
       {matchType !== "solo" && (
         <div
           className="grid gap-2 p-3 bg-dark-300 text-sm font-medium"
@@ -1189,7 +1208,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         {/* SOLO */}
         {matchType === "solo" ? (
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-3">
 
             {Array.from(
               { length: totalSlots },
@@ -1207,67 +1226,55 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
               return (
                 <div
                   key={slotNum}
-                  className={`border border-dark-300 rounded-lg p-3 bg-dark-400 ${
+                  className={`border border-dark-300 rounded-xl p-3 bg-dark-400 flex flex-col items-center justify-center ${
                     player
                       ? "bg-red-500/5"
                       : ""
                   }`}
                 >
 
-                  {/* Slot */}
-                  <div className="flex justify-between items-center mb-2">
+                  {/* Slot Number */}
+                  <div
+                    className={`font-bold text-sm mb-3 ${
+                      player
+                        ? "text-red-400"
+                        : "text-white"
+                    }`}
+                  >
+                    {slotNum}
+                  </div>
 
-                    <span
-                      className={`font-bold text-sm ${
-                        player
-                          ? "text-red-400"
-                          : "text-white"
+                  {/* Button */}
+                  {player ? (
+
+                    <div
+                      className="w-9 h-9 bg-red-500/30 rounded flex items-center justify-center"
+                      title={`Booked: ${player.odeuGameId}`}
+                    >
+                      <User className="w-4 h-4 text-red-400" />
+                    </div>
+
+                  ) : (
+
+                    <button
+                      onClick={() =>
+                        togglePositionSelection(
+                          slotNum,
+                          "A"
+                        )
+                      }
+                      className={`w-9 h-9 border-2 rounded flex items-center justify-center transition-all ${
+                        isSelected
+                          ? "border-green-500 bg-green-500/30"
+                          : "border-gray-600 hover:border-primary-500 hover:bg-primary-500/10"
                       }`}
                     >
-                      {slotNum}
-                    </span>
+                      {isSelected && (
+                        <Check className="w-4 h-4 text-green-400" />
+                      )}
+                    </button>
 
-                    <span className="text-yellow-400 font-bold">
-                      A
-                    </span>
-
-                  </div>
-
-                  {/* Select */}
-                  <div className="flex justify-center">
-
-                    {player ? (
-
-                      <div
-                        className="w-8 h-8 bg-red-500/30 rounded flex items-center justify-center"
-                        title={`Booked: ${player.odeuGameId}`}
-                      >
-                        <User className="w-4 h-4 text-red-400" />
-                      </div>
-
-                    ) : (
-
-                      <button
-                        onClick={() =>
-                          togglePositionSelection(
-                            slotNum,
-                            "A"
-                          )
-                        }
-                        className={`w-8 h-8 border-2 rounded flex items-center justify-center transition-all ${
-                          isSelected
-                            ? "border-green-500 bg-green-500/30"
-                            : "border-gray-600 hover:border-primary-500 hover:bg-primary-500/10"
-                        }`}
-                      >
-                        {isSelected && (
-                          <Check className="w-4 h-4 text-green-400" />
-                        )}
-                      </button>
-
-                    )}
-
-                  </div>
+                  )}
 
                 </div>
               );
@@ -1456,6 +1463,8 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
 
   </div>
 </Modal>
+                
+
  
 
  
