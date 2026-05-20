@@ -1162,13 +1162,13 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           {[1, 2, 3].map((item) => (
             <div
               key={item}
-              className="flex justify-between items-center px-2"
+              className="flex items-center"
             >
               <span className="text-gray-300 text-sm font-medium">
                 Slot
               </span>
 
-              <span className="text-yellow-400 text-sm font-bold">
+              <span className="text-yellow-400 text-sm font-bold ml-auto mr-3">
                 A
               </span>
             </div>
