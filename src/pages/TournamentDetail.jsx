@@ -1168,7 +1168,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                 Slot
               </span>
 
-              <span className="text-yellow-400 text-sm font-bold ml-auto mr-3">
+              <span className="text-yellow-400 text-sm font-bold ml-auto mr-7">
                 A
               </span>
             </div>
