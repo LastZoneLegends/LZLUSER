@@ -1125,186 +1125,271 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
   size="lg"
 >
   <div className="py-2">
+
     {/* Info */}
     <div className="mb-4 p-3 bg-primary-500/10 rounded-lg">
       <p className="text-sm text-primary-400">
-        <span className="font-bold">{matchType.toUpperCase()}</span> Tournament
+        <span className="font-bold">
+          {matchType.toUpperCase()}
+        </span>{" "}
+        Tournament
+
         <span className="text-xs text-gray-400 ml-2">
-          (Max {maxPositions} position{maxPositions > 1 ? 's' : ''})
+          (Max {maxPositions} position
+          {maxPositions > 1 ? "s" : ""})
         </span>
       </p>
 
       <p className="text-xs text-gray-400 mt-1">
-        Click on empty positions to select. Entry Fee:
-        <span className="text-white font-bold">
+        Click on empty positions to select.
+        Entry Fee:
+        <span className="text-white font-bold ml-1">
           {formatCurrency(tournament.entryFee)}
         </span>{" "}
         per position
       </p>
     </div>
 
-    {/* Position Selection Grid */}
+    {/* Header */}
     <div className="bg-dark-400 rounded-lg overflow-hidden">
 
-      {/* SOLO MODE */}
-      {matchType === "solo" ? (
-
-        <>
-          {/* Header */}
-          <div className="grid grid-cols-2 gap-2 p-3 bg-dark-300 text-sm font-medium">
-            <div className="text-gray-400">Slot</div>
-
-            <div className="text-center font-bold text-yellow-400">
-              A
-            </div>
-          </div>
-
-{/* Slots */}
-<div className="max-h-[70vh] overflow-y-auto p-2">
-
-  {/* SOLO MODE */}
-  {matchType === 'solo' ? (
-    <div className="grid grid-cols-3 gap-2">
-      {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
-
-        const occupied = slotOccupancy[slotNum] || {};
-        const player = occupied['A'];
-        const isSelected = isPositionSelected(slotNum, 'A');
-
-        return (
-          <div
-            key={slotNum}
-            className={`border border-dark-300 rounded-lg p-3 bg-dark-400 ${
-              player ? 'bg-red-500/5' : ''
-            }`}
-          >
-
-            {/* Slot Number */}
-            <div className="flex justify-between items-center mb-2">
-              <span className={`font-bold text-sm ${
-                player ? 'text-red-400' : 'text-white'
-              }`}>
-                Slot {slotNum}
-              </span>
-
-              <span className="text-yellow-400 font-bold">
-                A
-              </span>
-            </div>
-
-            {/* Player / Select */}
-            <div className="flex justify-center">
-              {player ? (
-                <div
-                  className="w-8 h-8 bg-red-500/30 rounded flex items-center justify-center"
-                  title={`Booked: ${player.odeuGameId}`}
-                >
-                  <User className="w-4 h-4 text-red-400" />
-                </div>
-              ) : (
-                <button
-                  onClick={() =>
-                    togglePositionSelection(slotNum, 'A')
-                  }
-                  className={`w-8 h-8 border-2 rounded flex items-center justify-center transition-all ${
-                    isSelected
-                      ? 'border-green-500 bg-green-500/30'
-                      : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/10'
-                  }`}
-                >
-                  {isSelected && (
-                    <Check className="w-4 h-4 text-green-400" />
-                  )}
-                </button>
-              )}
-            </div>
-
-          </div>
-        );
-      })}
-    </div>
-  ) : (
-
-    /* DUO / SQUAD MODE */
-    Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
-
-      const occupied = slotOccupancy[slotNum] || {};
-      const isFullSlot = Object.keys(occupied).length === teamSize;
-
-      return (
+      {matchType !== "solo" && (
         <div
-          key={slotNum}
-          className={`grid gap-2 p-3 border-b border-dark-300 ${
-            isFullSlot ? 'bg-red-500/5' : ''
-          }`}
+          className="grid gap-2 p-3 bg-dark-300 text-sm font-medium"
           style={{
-            gridTemplateColumns:
-              matchType === 'duo'
-                ? '70px repeat(2, 1fr)'
-                : '70px repeat(4, 1fr)'
+            gridTemplateColumns: `70px repeat(${teamSize}, 1fr)`
           }}
         >
-
-          {/* Slot Number */}
-          <div
-            className={`font-medium text-sm flex items-center ${
-              isFullSlot ? 'text-red-400' : 'text-white'
-            }`}
-          >
-            {slotNum}
+          <div className="text-gray-400">
+            Slot
           </div>
 
-          {/* Positions */}
-          {positions.map(pos => {
+          {positions.map((pos) => (
+            <div
+              key={pos}
+              className={`text-center font-bold ${
+                pos === "A"
+                  ? "text-yellow-400"
+                  : pos === "B"
+                  ? "text-blue-400"
+                  : pos === "C"
+                  ? "text-green-400"
+                  : "text-purple-400"
+              }`}
+            >
+              {pos}
+            </div>
+          ))}
+        </div>
+      )}
 
-            const player = occupied[pos];
-            const isSelected = isPositionSelected(slotNum, pos);
+      {/* Slots */}
+      <div className="max-h-[70vh] overflow-y-auto p-2">
 
-            if (player) {
+        {/* SOLO */}
+        {matchType === "solo" ? (
+
+          <div className="grid grid-cols-3 gap-2">
+
+            {Array.from(
+              { length: totalSlots },
+              (_, i) => i + 1
+            ).map((slotNum) => {
+
+              const occupied =
+                slotOccupancy[slotNum] || {};
+
+              const player = occupied["A"];
+
+              const isSelected =
+                isPositionSelected(slotNum, "A");
+
               return (
-                <div key={pos} className="flex justify-center">
-                  <div
-                    className="w-8 h-8 bg-red-500/30 rounded flex items-center justify-center"
-                    title={`Booked: ${player.odeuGameId}`}
-                  >
-                    <User className="w-4 h-4 text-red-400" />
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <div key={pos} className="flex justify-center">
-                <button
-                  onClick={() =>
-                    togglePositionSelection(slotNum, pos)
-                  }
-                  className={`w-8 h-8 border-2 rounded flex items-center justify-center transition-all ${
-                    isSelected
-                      ? 'border-green-500 bg-green-500/30'
-                      : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/10'
+                <div
+                  key={slotNum}
+                  className={`border border-dark-300 rounded-lg p-3 bg-dark-400 ${
+                    player
+                      ? "bg-red-500/5"
+                      : ""
                   }`}
                 >
-                  {isSelected && (
-                    <Check className="w-4 h-4 text-green-400" />
-                  )}
-                </button>
+
+                  {/* Slot */}
+                  <div className="flex justify-between items-center mb-2">
+
+                    <span
+                      className={`font-bold text-sm ${
+                        player
+                          ? "text-red-400"
+                          : "text-white"
+                      }`}
+                    >
+                      {slotNum}
+                    </span>
+
+                    <span className="text-yellow-400 font-bold">
+                      A
+                    </span>
+
+                  </div>
+
+                  {/* Select */}
+                  <div className="flex justify-center">
+
+                    {player ? (
+
+                      <div
+                        className="w-8 h-8 bg-red-500/30 rounded flex items-center justify-center"
+                        title={`Booked: ${player.odeuGameId}`}
+                      >
+                        <User className="w-4 h-4 text-red-400" />
+                      </div>
+
+                    ) : (
+
+                      <button
+                        onClick={() =>
+                          togglePositionSelection(
+                            slotNum,
+                            "A"
+                          )
+                        }
+                        className={`w-8 h-8 border-2 rounded flex items-center justify-center transition-all ${
+                          isSelected
+                            ? "border-green-500 bg-green-500/30"
+                            : "border-gray-600 hover:border-primary-500 hover:bg-primary-500/10"
+                        }`}
+                      >
+                        {isSelected && (
+                          <Check className="w-4 h-4 text-green-400" />
+                        )}
+                      </button>
+
+                    )}
+
+                  </div>
+
+                </div>
+              );
+            })}
+
+          </div>
+
+        ) : (
+
+          /* DUO / SQUAD */
+          Array.from(
+            { length: totalSlots },
+            (_, i) => i + 1
+          ).map((slotNum) => {
+
+            const occupied =
+              slotOccupancy[slotNum] || {};
+
+            const isFullSlot =
+              Object.keys(occupied).length ===
+              teamSize;
+
+            return (
+              <div
+                key={slotNum}
+                className={`grid gap-2 p-3 border-b border-dark-300 ${
+                  isFullSlot
+                    ? "bg-red-500/5"
+                    : ""
+                }`}
+                style={{
+                  gridTemplateColumns:
+                    matchType === "duo"
+                      ? "70px repeat(2, 1fr)"
+                      : "70px repeat(4, 1fr)"
+                }}
+              >
+
+                {/* Slot Number */}
+                <div
+                  className={`font-medium text-sm flex items-center ${
+                    isFullSlot
+                      ? "text-red-400"
+                      : "text-white"
+                  }`}
+                >
+                  {slotNum}
+                </div>
+
+                {/* Positions */}
+                {positions.map((pos) => {
+
+                  const player =
+                    occupied[pos];
+
+                  const isSelected =
+                    isPositionSelected(
+                      slotNum,
+                      pos
+                    );
+
+                  if (player) {
+                    return (
+                      <div
+                        key={pos}
+                        className="flex justify-center"
+                      >
+                        <div
+                          className="w-8 h-8 bg-red-500/30 rounded flex items-center justify-center"
+                          title={`Booked: ${player.odeuGameId}`}
+                        >
+                          <User className="w-4 h-4 text-red-400" />
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={pos}
+                      className="flex justify-center"
+                    >
+                      <button
+                        onClick={() =>
+                          togglePositionSelection(
+                            slotNum,
+                            pos
+                          )
+                        }
+                        className={`w-8 h-8 border-2 rounded flex items-center justify-center transition-all ${
+                          isSelected
+                            ? "border-green-500 bg-green-500/30"
+                            : "border-gray-600 hover:border-primary-500 hover:bg-primary-500/10"
+                        }`}
+                      >
+                        {isSelected && (
+                          <Check className="w-4 h-4 text-green-400" />
+                        )}
+                      </button>
+                    </div>
+                  );
+
+                })}
+
               </div>
             );
-          })}
-        </div>
-      );
-    })
+          })
 
-  )}
+        )}
 
-</div>
+      </div>
+
+    </div>
 
     {/* Selected Positions Summary */}
     {selectedPositions.length > 0 && (
       <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+
         <div className="flex justify-between items-center mb-2">
-          <span className="text-gray-400">Selected Positions</span>
+          <span className="text-gray-400">
+            Selected Positions
+          </span>
 
           <span className="text-green-400 font-bold">
             {selectedPositions.length}
@@ -1312,13 +1397,17 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         </div>
 
         <div className="flex flex-wrap gap-1 mb-2">
+
           {selectedPositions
             .sort(
               (a, b) =>
                 a.slot - b.slot ||
-                a.position.localeCompare(b.position)
+                a.position.localeCompare(
+                  b.position
+                )
             )
-            .map(sp => (
+            .map((sp) => (
+
               <span
                 key={`${sp.slot}-${sp.position}`}
                 className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs"
@@ -1326,18 +1415,26 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                 {sp.slot}
                 {sp.position}
               </span>
+
             ))}
+
         </div>
 
         <div className="flex justify-between border-t border-green-500/30 pt-2 mt-2">
-          <span className="text-gray-400">Total Cost</span>
+
+          <span className="text-gray-400">
+            Total Cost
+          </span>
 
           <span className="text-green-400 font-bold text-lg">
             {formatCurrency(
-              tournament.entryFee * selectedPositions.length
+              tournament.entryFee *
+                selectedPositions.length
             )}
           </span>
+
         </div>
+
       </div>
     )}
 
@@ -1347,14 +1444,20 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
       size="lg"
       className="mt-4"
       onClick={goToStep2}
-      disabled={selectedPositions.length === 0}
+      disabled={
+        selectedPositions.length === 0
+      }
     >
-      Next - Enter Game IDs ({selectedPositions.length})
+      Next - Enter Game IDs (
+      {selectedPositions.length})
 
       <ChevronRight className="w-4 h-4 ml-1" />
     </Button>
+
   </div>
 </Modal>
+ 
+
  
       {/* Join Modal - Step 2: Game ID Entry */}
       <Modal
