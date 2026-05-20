@@ -1118,7 +1118,9 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
 
 
 
-      {/* Join Modal - Step 1: Position Selection from Grid */}
+
+
+        {/* Join Modal - Step 1: Position Selection from Grid */}
 <Modal
   isOpen={joinModalOpen && joinStep === 1}
   onClose={() => setJoinModalOpen(false)}
@@ -1156,17 +1158,17 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
 
       {/* SOLO HEADER */}
       {matchType === "solo" && (
-        <div className="grid grid-cols-3 gap-2 p-3 bg-dark-300 text-sm font-medium">
-          <div className="text-center text-gray-400">
-            Slot
+        <div className="grid grid-cols-3 gap-3 p-3 bg-dark-300 text-sm font-medium">
+          <div className="text-center text-yellow-400 font-bold">
+            Position A
           </div>
 
           <div className="text-center text-yellow-400 font-bold">
-            Slot
+            Position A
           </div>
 
           <div className="text-center text-yellow-400 font-bold">
-            Slot
+            Position A
           </div>
         </div>
       )}
@@ -1228,20 +1230,25 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
                   key={slotNum}
                   className={`border border-dark-300 rounded-xl p-3 bg-dark-400 flex flex-col items-center justify-center ${
                     player
-                      ? "bg-red-500/5"
+                      ? "bg-red-500/10 border-red-500/20"
                       : ""
                   }`}
                 >
 
                   {/* Slot Number */}
                   <div
-                    className={`font-bold text-sm mb-3 ${
+                    className={`font-bold text-sm mb-2 ${
                       player
                         ? "text-red-400"
-                        : "text-white"
+                        : "text-yellow-400"
                     }`}
                   >
-                    {slotNum}
+                    Slot {slotNum}
+                  </div>
+
+                  {/* Position Text */}
+                  <div className="text-xs text-gray-400 mb-3">
+                    Position A
                   </div>
 
                   {/* Button */}
