@@ -1116,123 +1116,273 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
         )
       }
 
+
       {/* Join Modal - Step 1: Position Selection from Grid */}
-      <Modal
-        isOpen={joinModalOpen && joinStep === 1}
-        onClose={() => setJoinModalOpen(false)}
-        title="Select Your Positions"
-        size="lg"
-      >
-        <div className="py-2">
-          {/* Info */}
-          <div className="mb-4 p-3 bg-primary-500/10 rounded-lg">
-            <p className="text-sm text-primary-400">
-              <span className="font-bold">{matchType.toUpperCase()}</span> Tournament
-              <span className="text-xs text-gray-400 ml-2">(Max {maxPositions} position{maxPositions > 1 ? 's' : ''})</span>
-            </p>
-            <p className="text-xs text-gray-400 mt-1">
-              Click on empty positions to select. Entry Fee: <span className="text-white font-bold">{formatCurrency(tournament.entryFee)}</span> per position
-            </p>
+<Modal
+  isOpen={joinModalOpen && joinStep === 1}
+  onClose={() => setJoinModalOpen(false)}
+  title="Select Your Positions"
+  size="lg"
+>
+  <div className="py-2">
+    {/* Info */}
+    <div className="mb-4 p-3 bg-primary-500/10 rounded-lg">
+      <p className="text-sm text-primary-400">
+        <span className="font-bold">{matchType.toUpperCase()}</span> Tournament
+        <span className="text-xs text-gray-400 ml-2">
+          (Max {maxPositions} position{maxPositions > 1 ? 's' : ''})
+        </span>
+      </p>
+
+      <p className="text-xs text-gray-400 mt-1">
+        Click on empty positions to select. Entry Fee:
+        <span className="text-white font-bold">
+          {formatCurrency(tournament.entryFee)}
+        </span>{" "}
+        per position
+      </p>
+    </div>
+
+    {/* Position Selection Grid */}
+    <div className="bg-dark-400 rounded-lg overflow-hidden">
+
+      {/* SOLO MODE */}
+      {matchType === "solo" ? (
+
+        <>
+          {/* Header */}
+          <div className="grid grid-cols-2 gap-2 p-3 bg-dark-300 text-sm font-medium">
+            <div className="text-gray-400">Slot</div>
+
+            <div className="text-center font-bold text-yellow-400">
+              A
+            </div>
           </div>
 
-          {/* Position Selection Grid */}
-          <div className="bg-dark-400 rounded-lg overflow-hidden">
-            {/* Header */}
-            <div className="grid gap-2 p-3 bg-dark-300 text-sm font-medium" style={{ gridTemplateColumns: `60px repeat(${teamSize}, 1fr)` }}>
-              <div className="text-gray-400">Slot</div>
-              {positions.map(pos => (
-                <div key={pos} className={`text-center font-bold ${pos === 'A' ? 'text-yellow-400' :
-                  pos === 'B' ? 'text-blue-400' :
-                    pos === 'C' ? 'text-green-400' : 'text-purple-400'
-                  }`}>{pos}</div>
-              ))}
-            </div>
+          {/* Slots */}
+          <div className="max-h-[70vh] overflow-y-auto pb-24">
+            <div className="grid grid-cols-2 gap-2 p-2">
 
-            {/* Slots */}
-            <div className="max-h-64 overflow-y-auto">
               {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
+
                 const occupied = slotOccupancy[slotNum] || {};
-                const isFullSlot = Object.keys(occupied).length === teamSize;
+                const player = occupied["A"];
+                const isSelected = isPositionSelected(slotNum, "A");
 
                 return (
                   <div
                     key={slotNum}
-                    className={`grid gap-2 p-3 border-b border-dark-300 ${isFullSlot ? 'bg-red-500/5' : ''}`}
-                    style={{ gridTemplateColumns: `60px repeat(${teamSize}, 1fr)` }}
+                    className={`border border-dark-300 rounded-lg p-3 bg-dark-400 ${
+                      player ? "bg-red-500/5" : ""
+                    }`}
                   >
-                    <div className={`font-medium text-sm ${isFullSlot ? 'text-red-400' : 'text-white'}`}>
-                      {slotNum}
-                    </div>
-                    {positions.map(pos => {
-                      const player = occupied[pos];
-                      const isSelected = isPositionSelected(slotNum, pos);
 
-                      if (player) {
-                        // Position is booked
-                        return (
-                          <div key={pos} className="flex justify-center">
-                            <div className="w-7 h-7 bg-red-500/30 rounded flex items-center justify-center" title={`Booked: ${player.odeuGameId}`}>
-                              <User className="w-4 h-4 text-red-400" />
-                            </div>
+                    <div className="flex items-center justify-between">
+
+                      {/* Slot Number */}
+                      <div className="text-white font-semibold text-lg">
+                        {slotNum}
+                      </div>
+
+                      {/* Position */}
+                      <div className="flex justify-center">
+
+                        {player ? (
+
+                          <div
+                            className="w-8 h-8 bg-red-500/30 rounded flex items-center justify-center"
+                            title={`Booked: ${player.odeuGameId}`}
+                          >
+                            <User className="w-4 h-4 text-red-400" />
                           </div>
-                        );
-                      } else {
-                        // Position is available - make it clickable
-                        return (
-                          <div key={pos} className="flex justify-center">
-                            <button
-                              onClick={() => togglePositionSelection(slotNum, pos)}
-                              className={`w-7 h-7 border-2 rounded flex items-center justify-center transition-all ${isSelected
-                                ? 'border-green-500 bg-green-500/30'
-                                : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/10'
-                                }`}
-                            >
-                              {isSelected && <Check className="w-4 h-4 text-green-400" />}
-                            </button>
-                          </div>
-                        );
-                      }
-                    })}
+
+                        ) : (
+
+                          <button
+                            onClick={() =>
+                              togglePositionSelection(slotNum, "A")
+                            }
+                            className={`w-8 h-8 border-2 rounded flex items-center justify-center transition-all ${
+                              isSelected
+                                ? "border-green-500 bg-green-500/30"
+                                : "border-gray-600 hover:border-primary-500 hover:bg-primary-500/10"
+                            }`}
+                          >
+                            {isSelected && (
+                              <Check className="w-4 h-4 text-green-400" />
+                            )}
+                          </button>
+
+                        )}
+
+                      </div>
+                    </div>
                   </div>
                 );
               })}
+
             </div>
           </div>
+        </>
 
-          {/* Selected Positions Summary */}
-          {selectedPositions.length > 0 && (
-            <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-400">Selected Positions</span>
-                <span className="text-green-400 font-bold">{selectedPositions.length}</span>
-              </div>
-              <div className="flex flex-wrap gap-1 mb-2">
-                {selectedPositions.sort((a, b) => a.slot - b.slot || a.position.localeCompare(b.position)).map(sp => (
-                  <span key={`${sp.slot}-${sp.position}`} className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs">
-                    {sp.slot}{sp.position}
-                  </span>
-                ))}
-              </div>
-              <div className="flex justify-between border-t border-green-500/30 pt-2 mt-2">
-                <span className="text-gray-400">Total Cost</span>
-                <span className="text-green-400 font-bold text-lg">{formatCurrency(tournament.entryFee * selectedPositions.length)}</span>
-              </div>
-            </div>
-          )}
+      ) : (
 
-          {/* Next Button */}
-          <Button
-            fullWidth
-            size="lg"
-            className="mt-4"
-            onClick={goToStep2}
-            disabled={selectedPositions.length === 0}
+        <>
+          {/* OLD HEADER */}
+          <div
+            className="grid gap-2 p-3 bg-dark-300 text-sm font-medium"
+            style={{
+              gridTemplateColumns: `60px repeat(${teamSize}, 1fr)`
+            }}
           >
-            Next - Enter Game IDs ({selectedPositions.length}) <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
-        </div>
-      </Modal>
+            <div className="text-gray-400">Slot</div>
 
+            {positions.map(pos => (
+              <div
+                key={pos}
+                className={`text-center font-bold ${
+                  pos === 'A'
+                    ? 'text-yellow-400'
+                    : pos === 'B'
+                    ? 'text-blue-400'
+                    : pos === 'C'
+                    ? 'text-green-400'
+                    : 'text-purple-400'
+                }`}
+              >
+                {pos}
+              </div>
+            ))}
+          </div>
+
+          {/* OLD SLOTS */}
+          <div className="max-h-64 overflow-y-auto">
+            {Array.from({ length: totalSlots }, (_, i) => i + 1).map(slotNum => {
+
+              const occupied = slotOccupancy[slotNum] || {};
+              const isFullSlot =
+                Object.keys(occupied).length === teamSize;
+
+              return (
+                <div
+                  key={slotNum}
+                  className={`grid gap-2 p-3 border-b border-dark-300 ${
+                    isFullSlot ? 'bg-red-500/5' : ''
+                  }`}
+                  style={{
+                    gridTemplateColumns: `60px repeat(${teamSize}, 1fr)`
+                  }}
+                >
+                  <div
+                    className={`font-medium text-sm ${
+                      isFullSlot ? 'text-red-400' : 'text-white'
+                    }`}
+                  >
+                    {slotNum}
+                  </div>
+
+                  {positions.map(pos => {
+
+                    const player = occupied[pos];
+                    const isSelected =
+                      isPositionSelected(slotNum, pos);
+
+                    if (player) {
+                      return (
+                        <div key={pos} className="flex justify-center">
+                          <div
+                            className="w-7 h-7 bg-red-500/30 rounded flex items-center justify-center"
+                            title={`Booked: ${player.odeuGameId}`}
+                          >
+                            <User className="w-4 h-4 text-red-400" />
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div key={pos} className="flex justify-center">
+                          <button
+                            onClick={() =>
+                              togglePositionSelection(slotNum, pos)
+                            }
+                            className={`w-7 h-7 border-2 rounded flex items-center justify-center transition-all ${
+                              isSelected
+                                ? 'border-green-500 bg-green-500/30'
+                                : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/10'
+                            }`}
+                          >
+                            {isSelected && (
+                              <Check className="w-4 h-4 text-green-400" />
+                            )}
+                          </button>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+
+    {/* Selected Positions Summary */}
+    {selectedPositions.length > 0 && (
+      <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-gray-400">Selected Positions</span>
+
+          <span className="text-green-400 font-bold">
+            {selectedPositions.length}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-1 mb-2">
+          {selectedPositions
+            .sort(
+              (a, b) =>
+                a.slot - b.slot ||
+                a.position.localeCompare(b.position)
+            )
+            .map(sp => (
+              <span
+                key={`${sp.slot}-${sp.position}`}
+                className="px-2 py-0.5 bg-green-500/20 text-green-400 rounded text-xs"
+              >
+                {sp.slot}
+                {sp.position}
+              </span>
+            ))}
+        </div>
+
+        <div className="flex justify-between border-t border-green-500/30 pt-2 mt-2">
+          <span className="text-gray-400">Total Cost</span>
+
+          <span className="text-green-400 font-bold text-lg">
+            {formatCurrency(
+              tournament.entryFee * selectedPositions.length
+            )}
+          </span>
+        </div>
+      </div>
+    )}
+
+    {/* Next Button */}
+    <Button
+      fullWidth
+      size="lg"
+      className="mt-4"
+      onClick={goToStep2}
+      disabled={selectedPositions.length === 0}
+    >
+      Next - Enter Game IDs ({selectedPositions.length})
+
+      <ChevronRight className="w-4 h-4 ml-1" />
+    </Button>
+  </div>
+</Modal>
+ 
       {/* Join Modal - Step 2: Game ID Entry */}
       <Modal
         isOpen={joinModalOpen && joinStep === 2}
