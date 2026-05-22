@@ -33,6 +33,7 @@ export function AuthProvider({ children }) {
     await setDoc(userRef, {
       displayName,
       email,
+      deviceId: localStorage.getItem("device_id"),
       phone: '',
       walletBalance: 0,
       depositedBalance: 0,
