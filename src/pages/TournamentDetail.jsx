@@ -322,7 +322,7 @@ if (
   Number(tournament.entryFee || 0) > 0
 ) {
 
-  try {
+  
 
     // Find referrer
     const referrerQuery = query(
