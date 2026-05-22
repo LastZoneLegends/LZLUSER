@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useAuth } from '../contexts/AuthContext';
 import { ArrowLeft, Bell, Megaphone, BellRing } from 'lucide-react';
@@ -54,9 +54,15 @@ export default function Notifications() {
 
   const fetchNotifications = async () => {
     try {
-      const snapshot = await getDocs(
-        query(collection(db, 'notifications'), orderBy('createdAt', 'desc'), limit(50))
-      );
+      const q = query(
+  collection(db, 'notifications'),
+  where('userId', '==', currentUser.uid),
+  orderBy('createdAt', 'desc'),
+  limit(50)
+);
+
+const snapshot = await getDocs(q);
+      
       const notifs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setNotifications(notifs);
 
