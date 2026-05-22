@@ -108,6 +108,23 @@ export default function TournamentDetail() {
     }
   };
 
+  const fetchSettings = async () => {
+  try {
+    const settingsRef = doc(db, "settings", "appSettings");
+    const settingsSnap = await getDoc(settingsRef);
+
+    if (settingsSnap.exists()) {
+      setSettings(settingsSnap.data());
+      console.log("SETTINGS LOADED:", settingsSnap.data());
+    } else {
+      console.log("No settings found");
+    }
+
+  } catch (error) {
+    console.error("Error fetching settings:", error);
+  }
+};
+
   const winnerIds =
     tournament?.matchType === "solo"
         ? [
