@@ -111,6 +111,23 @@ export default function Register() {
     e.preventDefault();
     setError('');
 
+    const deviceId =
+  localStorage.getItem("device_id") || crypto.randomUUID();
+
+localStorage.setItem("device_id", deviceId);
+
+    const deviceQuery = query(
+  collection(db, "users"),
+  where("deviceId", "==", deviceId)
+);
+
+const deviceSnap = await getDocs(deviceQuery);
+
+if (deviceSnap.size >= 2) {
+  setError("Maximum 2 accounts allowed on this device");
+  return;
+}
+
     if (formData.password !== formData.confirmPassword) {
       return setError('Passwords do not match');
     }
