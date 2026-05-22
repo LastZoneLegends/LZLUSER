@@ -312,7 +312,7 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
         createdAt: serverTimestamp()
       });
 
-      // ==========================================
+// ==========================================
 // REFERRAL REWARD LOGIC
 // ==========================================
 
@@ -324,103 +324,94 @@ if (
 
   try {
 
-    // Prevent self referral
-    if (userData.referralCode === userData.referredBy) {
+    // Find referrer
+    const referrerQuery = query(
+      collection(db, "users"),
+      where("referralCode", "==", userData.referredBy)
+    );
 
-      console.log("Self referral blocked");
+    const referrerSnap = await getDocs(referrerQuery);
 
-    } else {
+    if (!referrerSnap.empty) {
 
-      // Find referrer
-      const referrerQuery = query(
-        collection(db, "users"),
-        where("referralCode", "==", userData.referredBy)
+      const referrerDoc = referrerSnap.docs[0];
+
+      // Prevent duplicate reward
+      const existingRewardQuery = query(
+        collection(db, "transactions"),
+        where("type", "==", "referral_bonus"),
+        where("referredUserId", "==", currentUser.uid)
       );
 
-      const referrerSnap = await getDocs(referrerQuery);
+      const existingRewardSnap =
+        await getDocs(existingRewardQuery);
 
-      if (!referrerSnap.empty) {
+      if (existingRewardSnap.empty) {
 
-        const referrerDoc = referrerSnap.docs[0];
+        // Referral bonus amount from admin panel
+        const referralAmount =
+          Number(settings?.referralBonus || 10);
 
-        // Prevent duplicate reward
-        const existingRewardQuery = query(
-          collection(db, "transactions"),
-          where("type", "==", "referral_bonus"),
-          where("referredUserId", "==", currentUser.uid)
+        // Credit bonus to referrer
+        await updateDoc(
+          doc(db, "users", referrerDoc.id),
+          {
+            bonusBalance: increment(referralAmount),
+            walletBalance: increment(referralAmount),
+            usersReferred: increment(1)
+          }
         );
 
-        const existingRewardSnap =
-          await getDocs(existingRewardQuery);
+        // Mark reward given to current user
+        await updateDoc(
+          doc(db, "users", currentUser.uid),
+          {
+            referralRewardGiven: true,
+            referralRewardAt: serverTimestamp(),
+            referredByUserId: referrerDoc.id
+          }
+        );
 
-        if (existingRewardSnap.empty) {
+        // Create transaction
+        await addDoc(collection(db, "transactions"), {
+          userId: referrerDoc.id,
+          type: "referral_bonus",
+          title: "Referral Bonus",
+          amount: referralAmount,
+          status: "completed",
 
-          // Referral bonus amount from admin panel
-          const referralAmount =
-            Number(settings?.referralBonus || 10);
+          referrerId: referrerDoc.id,
+          referredUserId: currentUser.uid,
+          referralCode: userData.referredBy,
 
-          // Credit bonus to referrer
-          await updateDoc(
-            doc(db, "users", referrerDoc.id),
-            {
-              bonusBalance: increment(referralAmount),
-              walletBalance: increment(referralAmount),
-              usersReferred: increment(1)
-            }
-          );
+          description:
+            `Referral reward from ${userData.displayName}`,
 
-          // Mark reward given to current user
-          await updateDoc(
-            doc(db, "users", currentUser.uid),
-            {
-              referralRewardGiven: true,
-              referralRewardAt: serverTimestamp(),
-              referredByUserId: referrerDoc.id
-            }
-          );
+          createdAt: serverTimestamp()
+        });
 
-          // Create transaction
-          await addDoc(collection(db, "transactions"), {
-            userId: referrerDoc.id,
-            type: "referral_bonus",
-            title: "Referral Bonus",
-            amount: referralAmount,
-            status: "completed",
+        // Create notification
+        await addDoc(collection(db, "notifications"), {
 
-            referrerId: referrerDoc.id,
-            referredUserId: currentUser.uid,
-            referralCode: userData.referredBy,
+          userId: referrerDoc.id,
 
-            description:
-              `Referral reward from ${userData.displayName}`,
+          title: "Referral Reward 🎉",
 
-            createdAt: serverTimestamp()
-          });
+          message:
+            `${userData.displayName} joined a paid match using your referral code. ₹${referralAmount} bonus credited.`,
 
-          // Create notification
-          await addDoc(collection(db, "notifications"), {
+          type: "referral_bonus",
 
-            userId: referrerDoc.id,
+          read: false,
 
-            title: "Referral Reward 🎉",
+          createdAt: serverTimestamp()
+        });
 
-            message:
-              `${userData.displayName} joined a paid match using your referral code. ₹${referralAmount} bonus credited.`,
+        console.log("Referral reward credited");
 
-            type: "referral_bonus",
+      } else {
 
-            read: false,
-
-            createdAt: serverTimestamp()
-          });
-
-          console.log("Referral reward credited");
-
-        } else {
-
-          console.log("Duplicate referral blocked");
-
-        }
+        console.log("Duplicate referral blocked");
 
       }
 
