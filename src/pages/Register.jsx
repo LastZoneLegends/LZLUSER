@@ -111,11 +111,6 @@ export default function Register() {
     e.preventDefault();
     setError('');
 
-    const deviceQuery = query(
-  collection(db, "users"),
-  where("deviceId", "==", deviceId)
-);
-
 
     if (formData.password !== formData.confirmPassword) {
       return setError('Passwords do not match');
