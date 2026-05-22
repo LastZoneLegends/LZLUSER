@@ -312,7 +312,7 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
         createdAt: serverTimestamp()
       });
 
-// ==========================================
+      // ==========================================
 // REFERRAL REWARD LOGIC
 // ==========================================
 
@@ -427,6 +427,7 @@ if (
   }
 
 }
+
   
       await refreshUserData();
       await fetchTournament();
