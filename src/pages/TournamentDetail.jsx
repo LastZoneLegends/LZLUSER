@@ -313,44 +313,155 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
       });
 
       // Referral reward logic
-if (userData.referredBy && !userData.referralRewardGiven) {
-  const referrerQuery = query(
-    collection(db, "users"),
-    where("referralCode", "==", userData.referredBy)
-  );
+// ===============================
+// IMPROVED REFERRAL SYSTEM
+// ===============================
 
-  const referrerSnap = await getDocs(referrerQuery);
+if (
+  userData.referredBy &&
+  !userData.referralRewardGiven &&
+  Number(tournament.entryFee || 0) > 0
+) {
 
-  if (!referrerSnap.empty) {
-    const referrerDoc = referrerSnap.docs[0];
-    const referrerData = referrerDoc.data();
+  try {
 
-    // Add bonus to referrer
-    const referralAmount = Number(settings?.referralBonus || 10);
-    await updateDoc(doc(db, "users", referrerDoc.id), {
-      bonusBalance: increment(referralAmount),
-      walletBalance: increment(referralAmount),
-      usersReferred: increment(1)
-    });
+    // Prevent self referral
+    if (userData.referralCode === userData.referredBy) {
+      console.log("Self referral blocked");
+    } else {
 
-    // Mark reward given
-    await updateDoc(doc(db, "users", currentUser.uid), {
-      referralRewardGiven: true
-    });
+      // Find referrer
+      const referrerQuery = query(
+        collection(db, "users"),
+        where("referralCode", "==", userData.referredBy)
+      );
 
-    // Create transaction
-    await addDoc(collection(db, "transactions"), {
-      userId: referrerDoc.id,
-      type: "referral_bonus",
-      title: "Referral Bonus",
-      amount: referralAmount,
-      status: "completed",
-      description: `Referral bonus from ${userData.displayName}`,
-      createdAt: serverTimestamp()
-    });
+      const referrerSnap = await getDocs(referrerQuery);
+
+      if (!referrerSnap.empty) {
+
+        const referrerDoc = referrerSnap.docs[0];
+        const referrerData = referrerDoc.data();
+
+        // ===============================
+        // SAME DEVICE BLOCK
+        // ===============================
+
+        const currentDevice =
+          localStorage.getItem("deviceId") || "unknown-device";
+
+        const referrerDevice =
+          referrerData.deviceId || "unknown-device";
+
+        if (currentDevice === referrerDevice) {
+
+          console.log("Same device referral blocked");
+
+        } else {
+
+          // ===============================
+          // DUPLICATE REWARD PROTECTION
+          // ===============================
+
+          const existingRewardQuery = query(
+            collection(db, "transactions"),
+            where("type", "==", "referral_bonus"),
+            where("referredUserId", "==", currentUser.uid)
+          );
+
+          const existingRewardSnap = await getDocs(existingRewardQuery);
+
+          if (existingRewardSnap.empty) {
+
+            // ===============================
+            // REFERRAL BONUS FROM ADMIN PANEL
+            // ===============================
+
+            const referralAmount =
+              Number(settings?.referralBonus || 10);
+
+            // ===============================
+            // CREDIT BONUS
+            // ===============================
+
+            await updateDoc(
+              doc(db, "users", referrerDoc.id),
+              {
+                bonusBalance: increment(referralAmount),
+                walletBalance: increment(referralAmount)
+              }
+            );
+
+            // ===============================
+            // MARK REWARD GIVEN
+            // ===============================
+
+            await updateDoc(
+              doc(db, "users", currentUser.uid),
+              {
+                referralRewardGiven: true,
+                referralRewardAt: serverTimestamp(),
+                referredByUserId: referrerDoc.id
+              }
+            );
+
+            // ===============================
+            // CREATE TRANSACTION
+            // ===============================
+
+            await addDoc(collection(db, "transactions"), {
+              userId: referrerDoc.id,
+              type: "referral_bonus",
+              title: "Referral Bonus",
+              amount: referralAmount,
+              status: "completed",
+
+              referrerId: referrerDoc.id,
+              referredUserId: currentUser.uid,
+              referralCode: userData.referredBy,
+
+              description:
+                `Referral reward from ${userData.displayName}`,
+
+              createdAt: serverTimestamp()
+            });
+
+            // ===============================
+            // CREATE NOTIFICATION
+            // ===============================
+
+            await addDoc(collection(db, "notifications"), {
+              userId: referrerDoc.id,
+              title: "Referral Reward 🎉",
+              message:
+                `${userData.displayName} joined a paid match using your referral code. ₹${referralAmount} bonus credited.`,
+
+              type: "referral_bonus",
+              read: false,
+              createdAt: serverTimestamp()
+            });
+
+            console.log("Referral reward credited");
+
+          } else {
+
+            console.log("Duplicate referral blocked");
+
+          }
+        }
+      }
+    }
+
+  } catch (referralError) {
+
+    console.error(
+      "Referral system error:",
+      referralError
+    );
+
   }
 }
-
+  
       await refreshUserData();
       await fetchTournament();
       setJoinModalOpen(false);
