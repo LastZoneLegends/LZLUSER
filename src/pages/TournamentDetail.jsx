@@ -93,6 +93,7 @@ export default function TournamentDetail() {
 
   useEffect(() => {
     fetchTournament();
+    fetchSettings();
   }, [id]);
 
   const fetchTournament = async () => {
@@ -329,8 +330,7 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
         createdAt: serverTimestamp()
       });
 
-      console.log("Settings:", settings);
-console.log("Referral Bonus:", settings?.referralBonus);
+      
       // ==========================================
 // REFERRAL REWARD LOGIC
 // ==========================================
@@ -1626,6 +1626,7 @@ Kill Prize: ₹{(tournament.results.third.kills || 0) * (tournament.perKillPrize
           {/* Note */}
           <p className="text-xs text-yellow-400/80 mt-3 px-1">
             ⚠️ Note: Make sure you enter your Game Username (IGN) and not Character ID.
+            Otherwise you will be kicked out of room
           </p>
           {/* Payment Summary */}
           <div className="mt-6 p-4 bg-dark-300 rounded-xl">
