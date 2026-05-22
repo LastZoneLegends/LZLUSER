@@ -149,6 +149,7 @@ export default function Login() {
         uid: user.uid,
         displayName: user.displayName || "User",
         email: user.email || "",
+        deviceId: localStorage.getItem("device_id"),
         phone: "",
         photoURL: user.photoURL || "",
 
