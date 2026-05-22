@@ -7,7 +7,7 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp, collection, where, query, getdocs} from 'firebase/firestore';
 
 const AuthContext = createContext();
 
