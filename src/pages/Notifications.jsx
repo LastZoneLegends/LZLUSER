@@ -29,25 +29,25 @@ export default function Notifications() {
 
     // Set up real-time listener for new notifications
     const unsubscribe = onSnapshot(
-      query(collection(db, 'notifications'), orderBy('createdAt', 'desc'), limit(1)),
-      (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            const notification = { id: change.doc.id, ...change.doc.data() };
+  query(collection(db, 'notifications'), orderBy('createdAt', 'desc'), limit(1)),
+  (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added') {
+        const notification = { id: change.doc.id, ...change.doc.data() };
 
-            // Check if this is a new notification (not initial load)
-            if (lastNotificationRef.current &&
-              notification.id !== lastNotificationRef.current &&
-              notification.sendPush) {
-              // Show browser notification
-              showBrowserNotification(notification);
-            }
+        if (
+          lastNotificationRef.current &&
+          notification.id !== lastNotificationRef.current &&
+          notification.sendPush
+        ) {
+          showBrowserNotification(notification);
+        }
 
-            lastNotificationRef.current = notification.id;
-          }
-        });
+        lastNotificationRef.current = notification.id;
       }
-    );
+    });
+  }
+);
 
     return () => unsubscribe();
   }, [currentUser]);
