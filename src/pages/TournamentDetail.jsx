@@ -312,6 +312,8 @@ await updateDoc(doc(db, 'users', currentUser.uid), {
         createdAt: serverTimestamp()
       });
 
+      console.log("Settings:", settings);
+console.log("Referral Bonus:", settings?.referralBonus);
       // ==========================================
 // REFERRAL REWARD LOGIC
 // ==========================================
@@ -350,7 +352,7 @@ if (
 
         // Referral bonus amount from admin panel
         const referralAmount =
-          Number(settings?.referralBonus || 10);
+          Number(settings?.referralBonus ?? 0);
 
         // Credit bonus to referrer
         await updateDoc(
@@ -398,11 +400,13 @@ if (
           title: "Referral Reward 🎉",
 
           message:
-            `${userData.displayName} joined a paid match using your referral code. ₹${referralAmount} bonus credited.`,
+            `${userData.displayName} joined a paid match using your referral code. 
+            ₹${referralAmount} bonus credited.`
 
           type: "referral_bonus",
 
           read: false,
+          sendPush: true,
 
           createdAt: serverTimestamp()
         });
