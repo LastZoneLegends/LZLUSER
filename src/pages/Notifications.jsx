@@ -29,7 +29,7 @@ export default function Notifications() {
 
     // Set up real-time listener for new notifications
     const unsubscribe = onSnapshot(
-  query(collection(db, 'notifications'), orderBy('createdAt', 'desc'), limit(1)),
+  query(collection(db, 'notifications'), where("userId", "==", currentUser.uid),orderBy('createdAt', 'desc'), limit(1)),
   (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === 'added') {
