@@ -401,7 +401,7 @@ if (
 
           message:
             `${userData.displayName} joined a paid match using your referral code. 
-            ₹${referralAmount} bonus credited.`
+            ₹${referralAmount} bonus credited.`,
 
           type: "referral_bonus",
 
