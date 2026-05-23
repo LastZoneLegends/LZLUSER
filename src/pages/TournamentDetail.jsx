@@ -111,7 +111,7 @@ export default function TournamentDetail() {
 
   const fetchSettings = async () => {
   try {
-    const settingsRef = doc(db, "settings", "appSettings");
+    const settingsRef = doc(db, "app_settings", "main");
     const settingsSnap = await getDoc(settingsRef);
 
     if (settingsSnap.exists()) {
