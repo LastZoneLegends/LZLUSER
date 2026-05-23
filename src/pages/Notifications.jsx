@@ -29,11 +29,18 @@ export default function Notifications() {
 
     // Set up real-time listener for new notifications
     const unsubscribe = onSnapshot(
-  query(collection(db, 'notifications'), where("userId", "==", currentUser.uid),orderBy('createdAt', 'desc'), limit(1)),
+  query(collection(db, 'notifications'), orderBy('createdAt', 'desc'), limit(1)),
   (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === 'added') {
         const notification = { id: change.doc.id, ...change.doc.data() };
+        // Skip private notifications for other users
+if (
+  notification.userId &&
+  notification.userId !== currentUser.uid
+) {
+  return;
+}
 
         if (
           lastNotificationRef.current &&
@@ -56,15 +63,29 @@ export default function Notifications() {
     try {
       const q = query(
   collection(db, 'notifications'),
-  where('userId', '==', currentUser.uid),
   orderBy('createdAt', 'desc'),
   limit(50)
 );
 
 const snapshot = await getDocs(q);
       
-      const notifs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setNotifications(notifs);
+      const notifs = snapshot.docs
+  .map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
+  .filter(notification => {
+
+    // Private notification
+    if (notification.userId) {
+      return notification.userId === currentUser.uid;
+    }
+
+    // Public notification
+    return true;
+  });
+
+setNotifications(notifs);
 
       if (notifs.length > 0) {
         lastNotificationRef.current = notifs[0].id;
