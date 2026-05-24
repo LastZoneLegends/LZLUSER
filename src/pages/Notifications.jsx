@@ -124,7 +124,7 @@ setNotifications(notifs);
           icon: '/icons/icon-192x192.png',
           badge: '/icons/icon-72x72.png',
           tag: notification.id,
-          requireInteraction: true
+          
         });
       } catch (error) {
         console.error('Error showing notification:', error);
