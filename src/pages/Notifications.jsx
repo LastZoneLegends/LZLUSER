@@ -44,6 +44,7 @@ export default function Notifications() {
   notification.sendPush
 ) {
 
+  alert("PUSH FUNCTION CALLED");
   console.log("PUSH TRIGGERED");
   console.log("Notification Data:", notification);
 
