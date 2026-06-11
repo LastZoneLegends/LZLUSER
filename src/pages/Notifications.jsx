@@ -39,11 +39,15 @@ export default function Notifications() {
 
 
         if (
-          lastNotificationRef.current &&
-          notification.id !== lastNotificationRef.current &&
-          notification.sendPush
-        ) {
-          showBrowserNotification(notification);
+  lastNotificationRef.current &&
+  notification.id !== lastNotificationRef.current &&
+  notification.sendPush
+) {
+
+  console.log("PUSH TRIGGERED");
+  console.log("Notification Data:", notification);
+
+  showBrowserNotification(notification);
         }
 
         lastNotificationRef.current = notification.id;
