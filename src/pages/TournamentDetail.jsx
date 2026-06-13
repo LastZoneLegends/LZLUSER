@@ -425,7 +425,7 @@ if (
           read: false,
           sendPush: true,
 
-          createdAt: serverTimestamp()
+          createdAt: Timestamp.now()
         });
 
         console.log("Referral reward credited");
